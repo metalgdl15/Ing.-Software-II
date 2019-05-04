@@ -16,7 +16,7 @@ public interface nominaEmpleadoDao {
         public void Agrega(nominaEmpleado nominaEmp);
         public void Actualiza (nominaEmpleado nominaEmp);
         public void Elimina (int id); 
-        public List <nominaEmpleado> obtenTodos();
+        public List <nominaEmpleado> obtenTodos(int tipo);
         public List <nominaEmpleado> registroNominaEmpleado(int tipo);
         public List <nominaEmpleado> obtenNominaEmpleado(int id);
         public List <nominaEmpleado> obtenNominaFecha(int idNomina);

@@ -105,5 +105,8 @@ public class Nomina {
      * @return the idNomina
      */
     
+    public String toString(){
+        return getFechaInicio() + " hasta " + getFechaFin();
+    }
     
 }

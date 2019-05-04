@@ -140,7 +140,7 @@ public class testNomina {
     
     @Test
     public void mostrarNominas(){
-        List <nominaEmpleado> nominaList = daoNE.obtenTodos();
+        List <nominaEmpleado> nominaList = daoNE.obtenTodos(1);
         
         for (int i=0; i<nominaList.size(); i++){
             System.out.println(nominaList.get(i).getEmpleado().getNombre());

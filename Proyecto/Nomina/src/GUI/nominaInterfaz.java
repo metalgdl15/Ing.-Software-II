@@ -5,6 +5,22 @@
  */
 package GUI;
 
+import Entity.Empleado;
+import Entity.nominaEmpleado;
+import Entity.Nomina;
+import dao.empleadoDao;
+import dao.nominaDao;
+import dao.nominaEmpleadoDao;
+import daoMysql.empleadoDaoMysql;
+import daoMysql.nominaDaoMysql;
+import daoMysql.nominaEmpleadoDaoMysql;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Adan
@@ -14,8 +30,84 @@ public class nominaInterfaz extends javax.swing.JFrame {
     /**
      * Creates new form nominaInterfaz
      */
+    
+    private nominaEmpleadoDao daoNE = new nominaEmpleadoDaoMysql();
+    private nominaDao daoN= new nominaDaoMysql();
+    
     public nominaInterfaz() {
         initComponents();
+        
+        cargarComboBoxEmpleado();
+        cargarComboBoxNomina(1);
+    }
+    
+    //Inicializa y carga los box de empleados desde la DB
+    private void cargarComboBoxEmpleado(){
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        empleadoDao dao = new empleadoDaoMysql();
+        
+        List <Empleado> listaEmpleado = dao.obtenTodos();
+        for(int j=0; j<listaEmpleado.size(); j++){
+            model.addElement(listaEmpleado.get(j));
+        }
+        
+        empleadoCombo.setModel(model);
+        empleadoBoxCon.setModel(model);
+    }
+    
+    //Inicializa y carga los box de nomina desde la DB
+    private void cargarComboBoxNomina(int tipo){
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        nominaDao dao = new nominaDaoMysql();
+        
+        List <Nomina> listaEmpleado = dao.obtenTipo(tipo);
+        for(int j=0; j<listaEmpleado.size(); j++){
+            model.addElement(listaEmpleado.get(j));
+        }
+        
+        nominaCombo.setModel(model);
+        //empleadoBoxCon.setModel(model);
+    }
+    
+    
+    private void agregaEnTabla(List <nominaEmpleado> listaNomina){
+        
+        DefaultTableModel modelo = (DefaultTableModel) tableNomina.getModel();
+        modelo.setRowCount(0);
+        Object []nom=new Object[9];
+        for (int i=0; i<listaNomina.size(); i++){
+            nominaEmpleado nomina = listaNomina.get(i);
+            
+            nom[0] = nomina.getId();
+            nom[1] = nomina.getEmpleado().getApellidoP()+ " " +nomina.getEmpleado().getApellidoM()+ " " + nomina.getEmpleado().getNombre();
+            nom[2] = nomina.getEmpleado().getSueldo();
+            nom[3] = nomina.getEmpleado().getSdi();
+            nom[4] = nomina.getDiasTrabajados();
+            nom[5] = nomina.getInfonavit();
+            nom[6] = nomina.getCuotaImss();
+            nom[7] = nomina.getCensantiaVejez();
+            nom[8] = nomina.getSueldoNeto();
+            
+            modelo.addRow(nom);
+        }
+        
+        alinear();
+    }
+    
+    // PARA ALINEAR LOS DATOS DE LA TABLA
+    private void alinear(){
+       DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+       tcr.setHorizontalAlignment(SwingConstants.LEFT);
+               
+       tableNomina.getColumnModel().getColumn(0).setCellRenderer(tcr);
+       tableNomina.getColumnModel().getColumn(1).setCellRenderer(tcr);
+       tableNomina.getColumnModel().getColumn(2).setCellRenderer(tcr);
+       tableNomina.getColumnModel().getColumn(3).setCellRenderer(tcr);
+       tableNomina.getColumnModel().getColumn(4).setCellRenderer(tcr);
+       tableNomina.getColumnModel().getColumn(5).setCellRenderer(tcr);
+       tableNomina.getColumnModel().getColumn(6).setCellRenderer(tcr);
+       tableNomina.getColumnModel().getColumn(7).setCellRenderer(tcr);
+       tableNomina.getColumnModel().getColumn(8).setCellRenderer(tcr);
     }
 
     /**
@@ -27,22 +119,310 @@ public class nominaInterfaz extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        inicioDate = new com.toedter.calendar.JDateChooser();
+        finDate = new com.toedter.calendar.JDateChooser();
+        lblFechaInicio = new javax.swing.JLabel();
+        lblFechaFin = new javax.swing.JLabel();
+        tipoCombo = new javax.swing.JComboBox<>();
+        lblRegistro = new javax.swing.JLabel();
+        btnAgregarN = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        empleadoCombo = new javax.swing.JComboBox<>();
+        nominaCombo = new javax.swing.JComboBox<>();
+        txtInfonavit = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        diasTrabajoSpinner = new javax.swing.JSpinner();
+        jLabel6 = new javax.swing.JLabel();
+        btnAgregarNE = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        registroComboCon = new javax.swing.JComboBox<>();
+        empleadoBoxCon = new javax.swing.JComboBox<>();
+        btnTodoCon = new javax.swing.JButton();
+        btnEmpleadoCon = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableNomina = new javax.swing.JTable();
+        btnEliminarRegistro = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.add(inicioDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(67, 130, 154, -1));
+        jPanel1.add(finDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(67, 202, 154, -1));
+
+        lblFechaInicio.setText("Fecha Inicio");
+        jPanel1.add(lblFechaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(88, 108, -1, -1));
+
+        lblFechaFin.setText("Fecha fin");
+        jPanel1.add(lblFechaFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 180, -1, -1));
+
+        tipoCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semanal", "Mensual", "Anual" }));
+        tipoCombo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                tipoComboItemStateChanged(evt);
+            }
+        });
+        jPanel1.add(tipoCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 70, 154, -1));
+
+        lblRegistro.setText("Tipo de registo");
+        jPanel1.add(lblRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 50, -1, -1));
+
+        btnAgregarN.setText("Agregar Nómina");
+        btnAgregarN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarNActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAgregarN, new org.netbeans.lib.awtextra.AbsoluteConstraints(67, 278, -1, -1));
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel1.setText("Nueva Nomina");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(49, 15, -1, -1));
+
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Agregar Empleado");
+        jLabel2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jLabel2.setMaximumSize(new java.awt.Dimension(248, 24));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, 260, 30));
+
+        jPanel1.add(empleadoCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 130, 230, -1));
+
+        jPanel1.add(nominaCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(383, 193, 230, -1));
+        jPanel1.add(txtInfonavit, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 310, 172, -1));
+
+        jLabel3.setText("Empleado");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 110, -1, -1));
+
+        jLabel4.setText("Nómina");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 170, -1, -1));
+
+        jLabel5.setText("Días trabajados");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 230, -1, -1));
+        jPanel1.add(diasTrabajoSpinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 250, 75, -1));
+
+        jLabel6.setText("Crédito Infonavit");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 290, -1, -1));
+
+        btnAgregarNE.setText("Insertar");
+        btnAgregarNE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarNEActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAgregarNE, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 350, -1, -1));
+
+        jTabbedPane1.addTab("Agregar", jPanel1);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 630, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 430, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Eliminar", jPanel2);
+
+        registroComboCon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semanal", "Mensual", "Anual" }));
+
+        btnTodoCon.setText("Todo");
+        btnTodoCon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTodoConActionPerformed(evt);
+            }
+        });
+
+        btnEmpleadoCon.setText("Empleado");
+        btnEmpleadoCon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEmpleadoConActionPerformed(evt);
+            }
+        });
+
+        tableNomina.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Empleado", "Sueldo Diario", "SDI", "Días Trabajados", "Infonavit", "Cuota IMSS", "Cesantía y Vejez", "Sueldo Neto"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Short.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Short.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tableNomina);
+        if (tableNomina.getColumnModel().getColumnCount() > 0) {
+            tableNomina.getColumnModel().getColumn(0).setResizable(false);
+            tableNomina.getColumnModel().getColumn(1).setResizable(false);
+            tableNomina.getColumnModel().getColumn(2).setResizable(false);
+            tableNomina.getColumnModel().getColumn(3).setResizable(false);
+            tableNomina.getColumnModel().getColumn(4).setResizable(false);
+            tableNomina.getColumnModel().getColumn(5).setResizable(false);
+            tableNomina.getColumnModel().getColumn(6).setResizable(false);
+            tableNomina.getColumnModel().getColumn(7).setResizable(false);
+            tableNomina.getColumnModel().getColumn(8).setResizable(false);
+        }
+
+        btnEliminarRegistro.setText("Eliminar Registro");
+        btnEliminarRegistro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarRegistroActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnTodoCon, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(123, 123, 123)
+                        .addComponent(btnEmpleadoCon)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(empleadoBoxCon, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(registroComboCon, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(36, 36, 36))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addComponent(btnEliminarRegistro)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(72, 72, 72)
+                .addComponent(registroComboCon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(empleadoBoxCon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEmpleadoCon)
+                    .addComponent(btnTodoCon))
+                .addGap(30, 30, 30)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnEliminarRegistro)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Consultar", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane1)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnTodoConActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTodoConActionPerformed
+        int tipo = 0;
+        switch (registroComboCon.getSelectedItem().toString()){
+            case "Semanal": tipo = 1; break;
+            case "Mensual": tipo = 2; break;
+            case "Anual": tipo = 3; break;
+        }
+
+        List <nominaEmpleado> listaNomina = daoNE.obtenTodos(tipo);
+        agregaEnTabla(listaNomina);
+    }//GEN-LAST:event_btnTodoConActionPerformed
+
+    private void tipoComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tipoComboItemStateChanged
+        int tipo = 0;
+
+        switch (tipoCombo.getSelectedItem().toString()){
+            case "Semanal": tipo = 1; break;
+            case "Mensual": tipo = 2; break;
+            case "Anual": tipo = 3; break;
+        }
+        cargarComboBoxNomina(tipo);
+    }//GEN-LAST:event_tipoComboItemStateChanged
+
+    private void btnAgregarNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarNActionPerformed
+        Nomina nomina = new Nomina ();
+        nomina.setFechaInicio(inicioDate.getDate());
+        nomina.setFechaFin(finDate.getDate());
+        
+        int tipo = 0;
+        switch (tipoCombo.getSelectedItem().toString()){
+            case "Semanal": tipo = 1; break;
+            case "Mensual": tipo = 2; break;
+            case "Anual": tipo = 3; break;
+        }
+        nomina.setTipo(tipo);
+        daoN.Agrega(nomina);
+        cargarComboBoxNomina(tipo);
+    }//GEN-LAST:event_btnAgregarNActionPerformed
+
+    private void btnAgregarNEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarNEActionPerformed
+        Empleado empleado = (Empleado) empleadoCombo.getSelectedItem();
+        Nomina nomina = (Nomina) nominaCombo.getSelectedItem();
+        
+        nominaEmpleado nominaEmp = new nominaEmpleado();
+        nominaEmp.setEmpleado(empleado);
+        nominaEmp.setNomina(nomina);
+        nominaEmp.setInfonavit(Double.parseDouble(txtInfonavit.getText()));
+        nominaEmp.setDiasTrabajados(Integer.parseInt(diasTrabajoSpinner.getValue().toString()));
+        
+        daoNE.Agrega(nominaEmp);
+    }//GEN-LAST:event_btnAgregarNEActionPerformed
+
+    //Consulta por empleado
+    private void btnEmpleadoConActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpleadoConActionPerformed
+        Empleado emp = (Empleado) empleadoBoxCon.getSelectedItem();
+        List <nominaEmpleado> listaNomina = daoNE.obtenNominaEmpleado(emp.getCodigo());
+        
+        agregaEnTabla(listaNomina);
+    }//GEN-LAST:event_btnEmpleadoConActionPerformed
+    
+    //ELIMINAR NOMINA
+    private void btnEliminarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarRegistroActionPerformed
+        int row = tableNomina.getSelectedRow();
+        DefaultTableModel modelo = (DefaultTableModel) tableNomina.getModel();
+        
+        int id = Integer.parseInt(tableNomina.getValueAt(row, 0).toString());
+        
+        daoNE.Elimina(id);
+        modelo.removeRow(row);
+        
+    }//GEN-LAST:event_btnEliminarRegistroActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -79,5 +459,34 @@ public class nominaInterfaz extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregarN;
+    private javax.swing.JButton btnAgregarNE;
+    private javax.swing.JButton btnEliminarRegistro;
+    private javax.swing.JButton btnEmpleadoCon;
+    private javax.swing.JButton btnTodoCon;
+    private javax.swing.JSpinner diasTrabajoSpinner;
+    private javax.swing.JComboBox<String> empleadoBoxCon;
+    private javax.swing.JComboBox<String> empleadoCombo;
+    private com.toedter.calendar.JDateChooser finDate;
+    private com.toedter.calendar.JDateChooser inicioDate;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblFechaFin;
+    private javax.swing.JLabel lblFechaInicio;
+    private javax.swing.JLabel lblRegistro;
+    private javax.swing.JComboBox<String> nominaCombo;
+    private javax.swing.JComboBox<String> registroComboCon;
+    private javax.swing.JTable tableNomina;
+    private javax.swing.JComboBox<String> tipoCombo;
+    private javax.swing.JTextField txtInfonavit;
     // End of variables declaration//GEN-END:variables
 }

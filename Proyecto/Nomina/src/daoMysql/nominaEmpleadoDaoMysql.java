@@ -155,7 +155,7 @@ public class nominaEmpleadoDaoMysql implements nominaEmpleadoDao{
     }
 
     @Override
-    public List<nominaEmpleado> obtenTodos() {
+    public List<nominaEmpleado> obtenTodos(int tipo) {
         Conexion conexion = new Conexion();
         conexion.newConnection();
         
@@ -164,11 +164,12 @@ public class nominaEmpleadoDaoMysql implements nominaEmpleadoDao{
         String query = "SELECT ne.*,n.fecha_inicio,n.fecha_fin,n.tipo, e.nombre, e.apellidoP, e.apellidoM "
                 + "FROM nominaEmpleado ne "
                 + "INNER JOIN empleado e ON ne.codigoEmpleado=e.codigo "
-                + "INNER JOIN nomina n ON ne.idNomina = n.id";
+                + "INNER JOIN nomina n ON ne.idNomina = n.id WHERE n.tipo =?";
         PreparedStatement stmt;
         
         try {
             stmt = conexion.getConnection().prepareStatement(query);
+            stmt.setInt(1, tipo);
             ResultSet rs = stmt.executeQuery();
             
             while (rs.next()){
