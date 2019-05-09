@@ -96,14 +96,12 @@ public class Login extends javax.swing.JFrame {
         int codigo = Integer.parseInt(txtCodigo.getText());
         String contrasena = txtContrasena.getText();
         
-        Usuario usuario = dao.iniciaSesion(codigo, contrasena);
-        
-        System.out.println(usuario.getRole());
+        Usuario usuario = dao.iniciaSesion(codigo, contrasena); 
         
         switch (usuario.getRole()){
-            case "admin": System.out.println("Administrador");break;
-            case "conta": System.out.println("Contador"); break;
-            case "emple": System.out.println("Empleado"); break;
+            case "ADMIN": System.out.println("ADMIN");break;
+            case "CONTADOR": System.out.println("CONTADOR"); break;
+            case "EMPLEADO": System.out.println("EMPLEADO"); break;
             
             default: JOptionPane.showMessageDialog(null, "Cuenta invalida"); break;
         }

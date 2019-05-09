@@ -24,7 +24,8 @@ public class usuarioDaoMysql implements usuarioDao{
         boolean entrar = false;
         Conexion conexion = new Conexion();
         conexion.newConnection();
-        String query = "SELECT * FROM usuario WHERE codigo = ? AND contrasena=?";
+        String query = "SELECT u.*, e.nombre, e.apellidoP, e.apellidoM FROM usuario u "
+                + "INNER JOIN empleado e ON u.codigo=e.codigo WHERE u.codigo = ?";
         
         Usuario usuario = new Usuario();
 
@@ -34,20 +35,19 @@ public class usuarioDaoMysql implements usuarioDao{
             stmt = conexion.getConnection().prepareStatement(query);
             
             stmt.setInt(1, codigo);
-            stmt.setString(2, contrasena);
             
             ResultSet rs = stmt.executeQuery();
             int i = 0;
             while (rs.next()){
                 i++;
-                usuario.setCodigo(rs.getInt(1));
-                usuario.setNombre(rs.getString(2));
-                usuario.setApellidoP(rs.getString(3));
-                usuario.setApellidoM(rs.getString(4));
-                usuario.setContrasena(rs.getString(5));
-                usuario.setRole(rs.getString(6));
+                //EL 1 SE IGNORA
+                usuario.setCodigo(rs.getInt(2));
+                usuario.setRole(rs.getString(3));               
+                usuario.setNombre(rs.getString(4));
+                usuario.setApellidoP(rs.getString(5));
+                usuario.setApellidoM(rs.getString(6));
+                
             }
-            
             if (i == 0){
                 usuario.setRole("");
             }
@@ -67,30 +67,40 @@ public class usuarioDaoMysql implements usuarioDao{
         conexion.newConnection();
         
         PreparedStatement stmt;
+        PreparedStatement stmtII;
         try{
                
-                String query = "CREATE USER '"+usuario.getCodigo()+"'@'localhost' IDENTIFIED BY '"+usuario.getContrasena()+"'";
+                String query = "CREATE USER ?@'localhost' IDENTIFIED BY ? ";
+                
                 stmt = conexion.getConnection().prepareStatement(query);
-                stmt.executeUpdate();
-                
-                
-                String ingresa = "INSERT INTO usuario (codigo,nombre,apellidoP,apellidoM) VALUES (?,?,?,?,?)";
-                stmt = conexion.getConnection().prepareStatement(ingresa);
-                stmt.executeUpdate();
-                
+                stmt.setString(1, Integer.toString(usuario.getCodigo()));
+                stmt.setString(2, usuario.getContrasena());
                 int consulta = stmt.executeUpdate();
+                
+                
+                String ingresa = "INSERT INTO usuario (codigo,role) VALUES (?,?)";
+                stmtII = conexion.getConnection().prepareStatement(ingresa);
+                
+                stmtII.setInt(1, usuario.getCodigo());
+                stmtII.setString(2, usuario.getRole());
+                stmtII.executeUpdate();
+                
+                
                 if (consulta > 0){
                     JOptionPane.showMessageDialog(null, "Se ha registrado nuevo usuario");
                 }
                 
-                 
+                stmt.close();
+                stmtII.close();
+                
+                 System.out.println("REgistro");
             }catch(SQLException ex){
                 Logger.getLogger(usuarioDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
             }
     }
 
     @Override
-    public void Actualiza(Usuario usuario, String permisos[]) {
+    public void Actualiza(Usuario usuario) {
         Conexion conexion= new Conexion();
         
         try{
@@ -98,25 +108,28 @@ public class usuarioDaoMysql implements usuarioDao{
             PreparedStatement stmt = null;
             
             String query;
-                if (!permisos[0].equals("")){
-                    query = "GRANT insert ON nomina.* TO "+usuario.getCodigo()+"@localhost";
-                    stmt = conexion.getConnection().prepareStatement(query);
-                    stmt.executeUpdate();
-                }
-                if (!permisos[1].equals("")){
-                    query = "GRANT delete ON nomina.* TO "+usuario.getCodigo()+"@localhost";
-                    stmt = conexion.getConnection().prepareStatement(query);
-                    stmt.executeUpdate();
-                }
-                if (!permisos[2].equals("")){
-                    query = "GRANT update ON nomina.* TO "+usuario.getCodigo()+"@localhost";
-                    stmt = conexion.getConnection().prepareStatement(query);
-                    stmt.executeUpdate();
-                }
-                if (!permisos[3].equals("")){
-                    query = "GRANT select ON nomina.* TO "+usuario.getCodigo()+"@localhost";
-                    stmt = conexion.getConnection().prepareStatement(query);
-                    stmt.executeUpdate();
+                for (int i =0; i<4; i++){
+                       if (!usuario.cuoPriv[i].equals("")){
+                            query = "GRANT "+usuario.cuoPriv[i]+" ON nomina.cuota TO "+usuario.getCodigo()+"@localhost";
+                            stmt = conexion.getConnection().prepareStatement(query);
+                            stmt.executeUpdate();
+                       }
+                       
+                       if (!usuario.empPriv[i].equals("")){
+                           query = "GRANT "+usuario.cuoPriv[i]+" ON nomina.empleado TO "+usuario.getCodigo()+"@localhost";
+                           stmt = conexion.getConnection().prepareStatement(query);
+                           stmt.executeUpdate();
+                       }
+                       
+                       if (!usuario.nomPriv[i].equals("")){
+                            query = "GRANT "+usuario.cuoPriv[i]+" ON nomina.nomina TO "+usuario.getCodigo()+"@localhost";
+                            stmt = conexion.getConnection().prepareStatement(query);
+                            stmt.executeUpdate();
+                            
+                            query = "GRANT "+usuario.cuoPriv[i]+" ON nomina.nominaEmpleado TO "+usuario.getCodigo()+"@localhost";
+                            stmt = conexion.getConnection().prepareStatement(query);
+                            stmt.executeUpdate();
+                       }
                 }
                     
                 stmt.close();
@@ -130,7 +143,34 @@ public class usuarioDaoMysql implements usuarioDao{
 
     @Override
     public void Elimina(Usuario usuario) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        Conexion conexion = new Conexion();
+        conexion.newConnection();
+        
+        PreparedStatement stmt;
+        
+        try {
+            
+            String query= "DROP USER ?@'localhost'";
+            stmt = conexion.getConnection().prepareStatement(query);
+            stmt.setString(1, Integer.toString(usuario.getCodigo()));
+            stmt.executeUpdate();
+            
+            query = "DELETE FROM usuario WHERE codigo = ?";
+            stmt = conexion.getConnection().prepareStatement(query);
+            stmt.setInt(1, usuario.getCodigo());
+            stmt.executeUpdate();
+            
+            query= "FLUSH PRIVILEGES";
+            stmt = conexion.getConnection().prepareStatement(query);
+            stmt.executeUpdate();
+            
+       
+            
+            stmt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(usuarioDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -140,6 +180,30 @@ public class usuarioDaoMysql implements usuarioDao{
 
     @Override
     public List<Usuario> obtenUsuario() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void quitarPrivilegios(Usuario usuario) {
+     Conexion conexion = new Conexion();
+        conexion.newConnection();
+        
+        PreparedStatement stmt;
+        
+        try {
+            
+            String query= "REVOKE ALL ON nomina.* FROM '"+usuario.getCodigo()+"'@'localhost'";
+            stmt = conexion.getConnection().prepareStatement(query);
+         
+            stmt.executeUpdate();
+            stmt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(usuarioDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void agregaTodos(Usuario usuario) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

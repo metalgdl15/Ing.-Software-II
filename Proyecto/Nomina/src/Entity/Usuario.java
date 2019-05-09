@@ -100,4 +100,8 @@ public class Usuario {
     public void setRole(String role) {
         this.role = role;
     }
+    
+    public String nomPriv [] = new String [4];
+    public String empPriv [] = new String [4];
+    public String cuoPriv [] = new String [4];
 }

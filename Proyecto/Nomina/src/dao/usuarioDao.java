@@ -15,8 +15,10 @@ import java.util.List;
 public interface usuarioDao {
         public Usuario iniciaSesion(int codigo, String contrasena);
         public void agrega(Usuario usuario);
-        public void Actualiza (Usuario usuario, String permisos[]);
+        public void agregaTodos(Usuario usuario);
+        public void Actualiza (Usuario usuario);
         public void Elimina (Usuario usuario); 
+        public void quitarPrivilegios(Usuario Usuario);
         public List <Usuario> obtenTodos();
         public List <Usuario> obtenUsuario();
 }
