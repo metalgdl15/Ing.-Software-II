@@ -8,6 +8,9 @@ package GUI;
 import Entity.Usuario;
 import dao.usuarioDao;
 import daoMysql.usuarioDaoMysql;
+import java.awt.Image;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
@@ -22,6 +25,11 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        
+        ImageIcon imagen = new ImageIcon(getClass().getResource("/Imagenes/UsuarioIcono.png"));
+        Icon icono = new ImageIcon(imagen.getImage().getScaledInstance (iconoUsuario.getWidth(), iconoUsuario.getHeight(),Image.SCALE_DEFAULT ));
+        iconoUsuario.setIcon(icono);
+        this.repaint();
     }
 
     /**
@@ -38,12 +46,18 @@ public class Login extends javax.swing.JFrame {
         lblCodigo = new javax.swing.JLabel();
         lblContrasena = new javax.swing.JLabel();
         btnEntrar = new javax.swing.JButton();
+        iconoUsuario = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().add(txtContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 200, 194, -1));
+        getContentPane().add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, 194, -1));
 
         lblCodigo.setText("Código:");
+        getContentPane().add(lblCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 157, -1, -1));
 
         lblContrasena.setText("Contraseña:");
+        getContentPane().add(lblContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 207, -1, -1));
 
         btnEntrar.setText("Entrar");
         btnEntrar.addActionListener(new java.awt.event.ActionListener() {
@@ -51,41 +65,10 @@ public class Login extends javax.swing.JFrame {
                 btnEntrarActionPerformed(evt);
             }
         });
+        getContentPane().add(btnEntrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 270, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(61, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblCodigo)
-                    .addComponent(lblContrasena))
-                .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(txtContrasena, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                    .addComponent(txtCodigo))
-                .addContainerGap(62, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnEntrar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(211, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCodigo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblCodigo, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblContrasena))
-                .addGap(18, 18, 18)
-                .addComponent(btnEntrar)
-                .addGap(43, 43, 43))
-        );
+        iconoUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(iconoUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 30, 250, 320));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -99,9 +82,24 @@ public class Login extends javax.swing.JFrame {
         Usuario usuario = dao.iniciaSesion(codigo, contrasena); 
         
         switch (usuario.getRole()){
-            case "ADMIN": System.out.println("ADMIN");break;
-            case "CONTADOR": System.out.println("CONTADOR"); break;
-            case "EMPLEADO": System.out.println("EMPLEADO"); break;
+            case "ADMIN": 
+                menuInterfazGer gerInter = new menuInterfazGer();
+                gerInter.setVisible(true);
+                dispose();
+                break;
+                
+            case "CONTADOR": 
+                menuInterfazCon conInter = new menuInterfazCon();
+                conInter.setVisible(true);
+                dispose();
+                break;
+                
+            case "EMPLEADO": 
+                menuInterfazEmp empInter = new menuInterfazEmp();
+                empInter.setVisible(true);
+                empInter.setUsuario(usuario);
+                dispose();
+                break;
             
             default: JOptionPane.showMessageDialog(null, "Cuenta invalida"); break;
         }
@@ -144,6 +142,7 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEntrar;
+    private javax.swing.JLabel iconoUsuario;
     private javax.swing.JLabel lblCodigo;
     private javax.swing.JLabel lblContrasena;
     private javax.swing.JTextField txtCodigo;

@@ -17,6 +17,7 @@ public interface usuarioDao {
         public void agrega(Usuario usuario);
         public void agregaTodos(Usuario usuario);
         public void Actualiza (Usuario usuario);
+        public void otorgaTodosLosDerechos(Usuario usuario);
         public void Elimina (Usuario usuario); 
         public void quitarPrivilegios(Usuario Usuario);
         public List <Usuario> obtenTodos();

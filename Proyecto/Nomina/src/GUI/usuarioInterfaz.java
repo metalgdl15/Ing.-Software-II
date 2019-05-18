@@ -55,6 +55,8 @@ public class usuarioInterfaz extends javax.swing.JFrame {
             leeCuota.setEnabled(activo);
             leeEmpleado.setEnabled(activo);
             leeNomina.setEnabled(activo);
+            
+            btnTodo.setEnabled(activo);
     }
 
     //Inicializa y carga los box de empleados desde la DB
@@ -104,6 +106,7 @@ public class usuarioInterfaz extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnAgregar = new javax.swing.JButton();
+        btnTodo = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
 
@@ -161,6 +164,13 @@ public class usuarioInterfaz extends javax.swing.JFrame {
             }
         });
 
+        btnTodo.setText("Seleccionar Todo");
+        btnTodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTodoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -168,59 +178,61 @@ public class usuarioInterfaz extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(58, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblCuota)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(agregaCuota)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(eliminaCuota)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(modificaCuota)
-                                .addGap(12, 12, 12)
-                                .addComponent(leeCuota))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblEmpleado)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(agregaEmpleado)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(eliminaEmpleado)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(modificaEmpleado)
-                                .addGap(12, 12, 12)
-                                .addComponent(leeEmpleado))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblNomina)
-                                .addGap(62, 62, 62)
-                                .addComponent(agregaNomina)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(eliminaNomina)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(modificaNomina)
-                                .addGap(12, 12, 12)
-                                .addComponent(leeNomina)))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGap(31, 31, 31)
-                                    .addComponent(Empleado)
-                                    .addGap(34, 34, 34)
-                                    .addComponent(Contador)
-                                    .addGap(47, 47, 47)
-                                    .addComponent(Gerente))
-                                .addComponent(btnAgregar))
-                            .addGap(50, 50, 50)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(empleadosBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtContrasenaI)
-                            .addComponent(txtContrasenaII, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(111, 111, 111)))
+                                    .addComponent(lblCuota)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(agregaCuota)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(eliminaCuota)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(modificaCuota)
+                                    .addGap(12, 12, 12)
+                                    .addComponent(leeCuota))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(lblEmpleado)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(agregaEmpleado)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(eliminaEmpleado)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(modificaEmpleado)
+                                    .addGap(12, 12, 12)
+                                    .addComponent(leeEmpleado))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(lblNomina)
+                                    .addGap(62, 62, 62)
+                                    .addComponent(agregaNomina)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(eliminaNomina)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(modificaNomina)
+                                    .addGap(12, 12, 12)
+                                    .addComponent(leeNomina)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addComponent(Empleado)
+                                .addGap(34, 34, 34)
+                                .addComponent(Contador)
+                                .addGap(47, 47, 47)
+                                .addComponent(Gerente)
+                                .addGap(50, 50, 50)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel2))
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(empleadosBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtContrasenaI)
+                                .addComponent(txtContrasenaII, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(111, 111, 111)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnAgregar)
+                        .addGap(29, 29, 29)
+                        .addComponent(btnTodo)))
                 .addGap(49, 49, 49))
         );
         jPanel1Layout.setVerticalGroup(
@@ -263,7 +275,9 @@ public class usuarioInterfaz extends javax.swing.JFrame {
                     .addComponent(leeCuota)
                     .addComponent(lblCuota))
                 .addGap(18, 18, 18)
-                .addComponent(btnAgregar)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAgregar)
+                    .addComponent(btnTodo))
                 .addContainerGap(38, Short.MAX_VALUE))
         );
 
@@ -358,7 +372,7 @@ public class usuarioInterfaz extends javax.swing.JFrame {
                         usuario.cuoPriv[0] = "create";
                     }
                     if(leeCuota.isSelected()){
-                        usuario.cuoPriv[1] = "read";
+                        usuario.cuoPriv[1] = "select";
                     }
                     if(modificaCuota.isSelected()){
                         usuario.cuoPriv[2] = "update";
@@ -372,7 +386,7 @@ public class usuarioInterfaz extends javax.swing.JFrame {
                         usuario.empPriv[0] = "create";
                     }
                     if(leeEmpleado.isSelected()){
-                        usuario.empPriv[1] = "read";
+                        usuario.empPriv[1] = "select";
                     }
                     if (modificaEmpleado.isSelected()){
                         usuario.empPriv[2] = "update";
@@ -386,24 +400,24 @@ public class usuarioInterfaz extends javax.swing.JFrame {
                         usuario.nomPriv[0] = "create";
                     }
                     if(leeNomina.isSelected()){
-                        usuario.nomPriv[1] = "read";
+                        usuario.nomPriv[1] = "select";
                     }
                     if(modificaNomina.isSelected()){
                         usuario.nomPriv[2] = "update";
                     }
                     if(eliminaNomina.isSelected()){
-                        usuario.nomPriv[0] = "delete";
+                        usuario.nomPriv[3] = "delete";
                     }
                     
                     daoU.Actualiza(usuario);
                     
                 }else if (role == "EMPLEADO"){
                     //
-                    usuario.nomPriv[2] = "read";
-                    usuario.empPriv[2] = "read";
+                    usuario.nomPriv[2] = "select";
+                    usuario.empPriv[2] = "select";
                     daoU.Actualiza(usuario);
                 }else{
-                    //FALTA GERENTE
+                    daoU.Actualiza(usuario);
                 }
                 
             }else{
@@ -414,6 +428,24 @@ public class usuarioInterfaz extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Verifique la contraseña");
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTodoActionPerformed
+        agregaCuota.setSelected(true);
+        agregaEmpleado.setSelected(true);
+        agregaNomina.setSelected(true);
+        
+        leeCuota.setSelected(true);
+        leeEmpleado.setSelected(true);
+        leeNomina.setSelected(true);
+        
+        modificaCuota.setSelected(true);
+        modificaEmpleado.setSelected(true);
+        modificaNomina.setSelected(true);
+        
+        eliminaEmpleado.setSelected(true);
+        eliminaCuota.setSelected(true);
+        eliminaNomina.setSelected(true);
+    }//GEN-LAST:event_btnTodoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -458,6 +490,7 @@ public class usuarioInterfaz extends javax.swing.JFrame {
     private javax.swing.JRadioButton agregaEmpleado;
     private javax.swing.JRadioButton agregaNomina;
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnTodo;
     private javax.swing.JRadioButton eliminaCuota;
     private javax.swing.JRadioButton eliminaEmpleado;
     private javax.swing.JRadioButton eliminaNomina;

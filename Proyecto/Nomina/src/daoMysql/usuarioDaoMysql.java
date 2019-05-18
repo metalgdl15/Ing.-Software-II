@@ -23,7 +23,7 @@ public class usuarioDaoMysql implements usuarioDao{
     public Usuario iniciaSesion(int codigo, String contrasena) {
         boolean entrar = false;
         Conexion conexion = new Conexion();
-        conexion.newConnection();
+        
         String query = "SELECT u.*, e.nombre, e.apellidoP, e.apellidoM FROM usuario u "
                 + "INNER JOIN empleado e ON u.codigo=e.codigo WHERE u.codigo = ?";
         
@@ -31,6 +31,7 @@ public class usuarioDaoMysql implements usuarioDao{
 
         PreparedStatement stmt;
         try {
+            conexion.newConnetionCont(Integer.toString(codigo), contrasena);
             
             stmt = conexion.getConnection().prepareStatement(query);
             
@@ -93,7 +94,7 @@ public class usuarioDaoMysql implements usuarioDao{
                 stmt.close();
                 stmtII.close();
                 
-                 System.out.println("REgistro");
+                 System.out.println("Registro");
             }catch(SQLException ex){
                 Logger.getLogger(usuarioDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -108,31 +109,56 @@ public class usuarioDaoMysql implements usuarioDao{
             PreparedStatement stmt = null;
             
             String query;
-                for (int i =0; i<4; i++){
+            if(!usuario.getRole().equals("ADMIN")){
+                for (int i=0; i<4; i++){
                        if (!usuario.cuoPriv[i].equals("")){
-                            query = "GRANT "+usuario.cuoPriv[i]+" ON nomina.cuota TO "+usuario.getCodigo()+"@localhost";
+                            query = "GRANT "+usuario.cuoPriv[i]+" ON nomina.cuota TO ?@localhost";
                             stmt = conexion.getConnection().prepareStatement(query);
+                            stmt.setString(1, Integer.toString(usuario.getCodigo()));
                             stmt.executeUpdate();
                        }
                        
                        if (!usuario.empPriv[i].equals("")){
-                           query = "GRANT "+usuario.cuoPriv[i]+" ON nomina.empleado TO "+usuario.getCodigo()+"@localhost";
+                           query = "GRANT "+usuario.empPriv[i]+" ON nomina.empleado TO ?@localhost";
                            stmt = conexion.getConnection().prepareStatement(query);
+                           stmt.setString(1, Integer.toString(usuario.getCodigo()));
+                           
                            stmt.executeUpdate();
                        }
                        
                        if (!usuario.nomPriv[i].equals("")){
-                            query = "GRANT "+usuario.cuoPriv[i]+" ON nomina.nomina TO "+usuario.getCodigo()+"@localhost";
-                            stmt = conexion.getConnection().prepareStatement(query);
-                            stmt.executeUpdate();
+                           query = "GRANT "+usuario.nomPriv[i]+" ON nomina.nomina TO ?@localhost";
+                           stmt = conexion.getConnection().prepareStatement(query);
+                           stmt.setString(1, Integer.toString(usuario.getCodigo()));
+                           
+                           stmt.executeUpdate();
                             
-                            query = "GRANT "+usuario.cuoPriv[i]+" ON nomina.nominaEmpleado TO "+usuario.getCodigo()+"@localhost";
-                            stmt = conexion.getConnection().prepareStatement(query);
-                            stmt.executeUpdate();
+                           query = "GRANT "+usuario.nomPriv[i]+" ON nomina.nominaEmpleado TO ?@localhost";
+                           stmt = conexion.getConnection().prepareStatement(query);
+                           stmt.setString(1, Integer.toString(usuario.getCodigo()));
+                           stmt.executeUpdate();
                        }
                 }
+                
+                query = "GRANT SELECT ON nomina.usuario TO ?@localhost";
+                stmt = conexion.getConnection().prepareStatement(query);
+                stmt.setString(1, Integer.toString(usuario.getCodigo()));
+                           
+                stmt.executeUpdate();
+            }else{
+                query = "GRANT ALL ON nomina.* TO ?@localhost";
+                stmt = conexion.getConnection().prepareStatement(query);
+                stmt.setString(1, Integer.toString(usuario.getCodigo()));
+                           
+                stmt.executeUpdate();
+            }
+            
+            
+            query= "FLUSH PRIVILEGES";
+            stmt = conexion.getConnection().prepareStatement(query);
+            stmt.executeUpdate();
                     
-                stmt.close();
+            stmt.close();
         }catch(SQLException ex){
             Logger.getLogger(usuarioDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
@@ -205,6 +231,11 @@ public class usuarioDaoMysql implements usuarioDao{
     @Override
     public void agregaTodos(Usuario usuario) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void otorgaTodosLosDerechos(Usuario usuario) {
+        String queery = "GRANT ALL ON nomina.* TO ?@'localhost'";
     }
 
    

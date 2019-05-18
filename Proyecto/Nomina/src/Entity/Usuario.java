@@ -16,7 +16,19 @@ public class Usuario {
     private String apellidoM;
     private String contrasena;
     private String role;
-
+    
+    public String nomPriv [] = new String [4];
+    public String empPriv [] = new String [4];
+    public String cuoPriv [] = new String [4];
+    
+    
+    public Usuario(){
+        for (int i = 0; i < 4; i++) {
+            nomPriv[i] = "";
+            empPriv[i] = "";
+            cuoPriv[i] = "";
+        }
+    }
     /**
      * @return the Codigo
      */
@@ -101,7 +113,5 @@ public class Usuario {
         this.role = role;
     }
     
-    public String nomPriv [] = new String [4];
-    public String empPriv [] = new String [4];
-    public String cuoPriv [] = new String [4];
+    
 }

@@ -27,21 +27,100 @@ public class menuInterfazCon extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        nominaImage = new javax.swing.JLabel();
+        empleadoImage = new javax.swing.JLabel();
+        cuotaImage = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        nominaImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Nomina.png"))); // NOI18N
+        nominaImage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nominaImageMouseClicked(evt);
+            }
+        });
+
+        empleadoImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Empleado.png"))); // NOI18N
+        empleadoImage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                empleadoImageMouseClicked(evt);
+            }
+        });
+
+        cuotaImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/patron.png"))); // NOI18N
+        cuotaImage.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 2, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 0));
+        jLabel1.setText("Seleccione el área");
+
+        jLabel2.setText("Patronal");
+
+        jLabel3.setText("Nómina");
+
+        jLabel4.setText("Empleado");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(51, Short.MAX_VALUE)
+                .addComponent(cuotaImage)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addComponent(nominaImage)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addComponent(empleadoImage)
+                .addContainerGap(52, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(79, 79, 79)
+                .addComponent(jLabel2)
+                .addGap(106, 106, 106)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel4)
+                .addGap(74, 74, 74))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(74, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(empleadoImage)
+                    .addComponent(cuotaImage)
+                    .addComponent(nominaImage))
+                .addContainerGap(125, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void nominaImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nominaImageMouseClicked
+        nominaInterfaz nomInter = new nominaInterfaz();
+        nomInter.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_nominaImageMouseClicked
+
+    private void empleadoImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_empleadoImageMouseClicked
+        empleadoInterfaz empInter = new empleadoInterfaz();
+        empInter.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_empleadoImageMouseClicked
 
     /**
      * @param args the command line arguments
@@ -79,5 +158,12 @@ public class menuInterfazCon extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel cuotaImage;
+    private javax.swing.JLabel empleadoImage;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel nominaImage;
     // End of variables declaration//GEN-END:variables
 }

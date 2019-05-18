@@ -64,69 +64,71 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace pref="58" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                              <Group type="103" alignment="1" groupAlignment="1" max="-2" attributes="0">
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="lblCuota" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="agregaCuota" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="eliminaCuota" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="modificaCuota" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                      <Component id="leeCuota" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="0" attributes="0">
+                              <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                  <Group type="103" alignment="1" groupAlignment="1" max="-2" attributes="0">
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Component id="lblCuota" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="agregaCuota" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="eliminaCuota" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="modificaCuota" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                                          <Component id="leeCuota" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="lblEmpleado" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="agregaEmpleado" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="eliminaEmpleado" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="modificaEmpleado" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                                          <Component id="leeEmpleado" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="lblNomina" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
+                                          <Component id="agregaNomina" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="eliminaNomina" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="modificaNomina" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                                          <Component id="leeNomina" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="lblEmpleado" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="agregaEmpleado" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="eliminaEmpleado" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="modificaEmpleado" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                      <Component id="leeEmpleado" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="lblNomina" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
-                                      <Component id="agregaNomina" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="eliminaNomina" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="modificaNomina" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                      <Component id="leeNomina" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                                      <Component id="Empleado" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                                      <Component id="Contador" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+                                      <Component id="Gerente" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Group type="102" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                                          <Component id="Empleado" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                                          <Component id="Contador" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                                          <Component id="Gerente" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="btnAgregar" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="empleadosBox" max="32767" attributes="0"/>
+                                      <Component id="txtContrasenaI" max="32767" attributes="0"/>
+                                      <Component id="txtContrasenaII" min="-2" pref="188" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="111" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="empleadosBox" max="32767" attributes="0"/>
-                                  <Component id="txtContrasenaI" max="32767" attributes="0"/>
-                                  <Component id="txtContrasenaII" min="-2" pref="188" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="111" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="btnAgregar" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                              <Component id="btnTodo" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
@@ -179,7 +181,10 @@
                           <Component id="lblCuota" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="btnAgregar" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btnAgregar" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnTodo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace pref="38" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -309,6 +314,14 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAgregarActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnTodo">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Seleccionar Todo"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTodoActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
