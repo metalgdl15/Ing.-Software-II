@@ -26,6 +26,8 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         
+        this.setLocationRelativeTo(null);
+        
         ImageIcon imagen = new ImageIcon(getClass().getResource("/Imagenes/UsuarioIcono.png"));
         Icon icono = new ImageIcon(imagen.getImage().getScaledInstance (iconoUsuario.getWidth(), iconoUsuario.getHeight(),Image.SCALE_DEFAULT ));
         iconoUsuario.setIcon(icono);
@@ -79,25 +81,28 @@ public class Login extends javax.swing.JFrame {
         int codigo = Integer.parseInt(txtCodigo.getText());
         String contrasena = txtContrasena.getText();
         
-        Usuario usuario = dao.iniciaSesion(codigo, contrasena); 
+        Usuario usuario = dao.iniciaSesion(codigo, contrasena);
+        usuario.setContrasena(contrasena);
+        
+        
         
         switch (usuario.getRole()){
             case "ADMIN": 
-                menuInterfazGer gerInter = new menuInterfazGer();
+                menuInterfazGer gerInter = new menuInterfazGer(usuario);                
                 gerInter.setVisible(true);
                 dispose();
                 break;
                 
             case "CONTADOR": 
-                menuInterfazCon conInter = new menuInterfazCon();
+                menuInterfazCon conInter = new menuInterfazCon(usuario);
                 conInter.setVisible(true);
                 dispose();
                 break;
                 
             case "EMPLEADO": 
-                menuInterfazEmp empInter = new menuInterfazEmp();
-                empInter.setVisible(true);
+                menuInterfazEmp empInter = new menuInterfazEmp(usuario);
                 empInter.setUsuario(usuario);
+                empInter.setVisible(true);
                 dispose();
                 break;
             

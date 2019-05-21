@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import Entity.Usuario;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Adan
@@ -39,7 +40,7 @@ public class Conexion {
             //conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/nomina","root","");
         }catch(ClassNotFoundException | SQLException e){
             e.printStackTrace();
-            System.out.println("Cuenta invalida");
+            JOptionPane.showMessageDialog(null, "Cuenta de usuario o contraseña invalida");
         }
     }
     

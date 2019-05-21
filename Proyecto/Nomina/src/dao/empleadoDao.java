@@ -5,6 +5,7 @@
  */
 package dao;
 import Entity.Empleado;
+import Entity.Usuario;
 import java.util.List;
 
 /**
@@ -12,6 +13,11 @@ import java.util.List;
  * @author Adan
  */
 public interface empleadoDao {
+    
+        
+        public Usuario getUsuario();
+        public void setUsuario(Usuario usuario);
+        
         public void agrega(Empleado empleado);
         public void Actualiza (Empleado empleado);
         public void Elimina (Empleado empleado); 

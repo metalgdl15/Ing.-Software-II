@@ -4,11 +4,32 @@
   <NonVisualComponents>
     <Component class="javax.swing.ButtonGroup" name="grupoBotones">
     </Component>
+    <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
+      <SubComponents>
+        <Menu class="javax.swing.JMenu" name="cerrarSesion">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Cerrar Sesi&#xf3;n "/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cerrarSesionMouseClicked"/>
+          </Events>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="regresar">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Regresar"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="regresarMouseClicked"/>
+          </Events>
+        </Menu>
+      </SubComponents>
+    </Menu>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
   <SyntheticProperties>
+    <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar1"/>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
@@ -39,7 +60,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jTabbedPane1" min="-2" pref="419" max="-2" attributes="0"/>
-              <EmptySpace pref="33" max="32767" attributes="0"/>
+              <EmptySpace pref="10" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -67,28 +88,6 @@
                           <Group type="103" alignment="0" groupAlignment="0" attributes="0">
                               <Group type="103" alignment="1" groupAlignment="0" attributes="0">
                                   <Group type="103" alignment="1" groupAlignment="1" max="-2" attributes="0">
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <Component id="lblCuota" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="agregaCuota" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="eliminaCuota" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="modificaCuota" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                          <Component id="leeCuota" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="lblEmpleado" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="agregaEmpleado" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="eliminaEmpleado" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="modificaEmpleado" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                          <Component id="leeEmpleado" min="-2" max="-2" attributes="0"/>
-                                      </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="lblNomina" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
@@ -97,8 +96,29 @@
                                           <Component id="eliminaNomina" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="modificaNomina" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                          <Component id="leeNomina" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="1" attributes="0">
+                                              <Group type="102" alignment="1" attributes="0">
+                                                  <Component id="lblCuota" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="32767" attributes="0"/>
+                                                  <Component id="agregaCuota" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="eliminaCuota" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="modificaCuota" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="lblEmpleado" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace pref="49" max="32767" attributes="0"/>
+                                                  <Component id="agregaEmpleado" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="eliminaEmpleado" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="modificaEmpleado" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <EmptySpace min="114" pref="114" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" attributes="0">
@@ -108,7 +128,7 @@
                                       <Component id="Contador" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                                       <Component id="Gerente" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="99" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
@@ -122,16 +142,16 @@
                                       <Component id="txtContrasenaI" max="32767" attributes="0"/>
                                       <Component id="txtContrasenaII" min="-2" pref="188" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" pref="111" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="160" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="btnAgregar" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                               <Component id="btnTodo" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -161,7 +181,6 @@
                           <Component id="agregaNomina" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="eliminaNomina" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="modificaNomina" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="leeNomina" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblNomina" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -169,7 +188,6 @@
                           <Component id="agregaEmpleado" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="eliminaEmpleado" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="modificaEmpleado" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="leeEmpleado" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblEmpleado" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -177,7 +195,6 @@
                           <Component id="agregaCuota" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="eliminaCuota" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="modificaCuota" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="leeCuota" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblCuota" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -206,16 +223,6 @@
                 <Property name="text" type="java.lang.String" value="Modifica"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="leeNomina">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Lee"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JRadioButton" name="leeEmpleado">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Lee"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JRadioButton" name="modificaEmpleado">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Modifica"/>
@@ -229,11 +236,6 @@
             <Component class="javax.swing.JRadioButton" name="agregaEmpleado">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Agrega"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JRadioButton" name="leeCuota">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Lee"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JRadioButton" name="modificaCuota">

@@ -5,17 +5,39 @@
  */
 package GUI;
 
+import Entity.Usuario;
+
 /**
  *
  * @author Adan
  */
 public class menuInterfazGer extends javax.swing.JFrame {
+    
+    private Usuario usuario;
+    
+    public Usuario getUsuario(){
+        return usuario;
+    }
+    
+    public void setUsuario(Usuario usuario){
+        this.usuario = usuario;
+    }
 
     /**
      * Creates new form menuInterfazGer
      */
-    public menuInterfazGer() {
+    public menuInterfazGer(Usuario usuario) {
         initComponents();
+        this.usuario = usuario;
+        
+        this.setLocationRelativeTo(null);
+        nombreUsuario();
+    }
+    
+    //Vizualiza en nombre de usuario en el frame
+    private void nombreUsuario (){
+        String nombreUsuario = getUsuario().getApellidoP() + " " + getUsuario().getApellidoM() + " " + getUsuario().getNombre();
+        lblNombreUsuario.setText(nombreUsuario);
     }
 
     
@@ -33,6 +55,9 @@ public class menuInterfazGer extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        lblNombreUsuario = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        cerrarSesion = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -82,6 +107,17 @@ public class menuInterfazGer extends javax.swing.JFrame {
 
         jLabel5.setText("Usuarios");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 320, -1, -1));
+        jPanel1.add(lblNombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 10, 90, 10));
+
+        cerrarSesion.setText("Cerrar Sesión");
+        cerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cerrarSesionMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(cerrarSesion);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -104,59 +140,31 @@ public class menuInterfazGer extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void nominaImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nominaImageMouseClicked
-        nominaInterfaz nomInter = new nominaInterfaz();
+        nominaInterfaz nomInter = new nominaInterfaz(getUsuario());
         nomInter.setVisible(true);
         dispose();
     }//GEN-LAST:event_nominaImageMouseClicked
 
     private void empleadoImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_empleadoImageMouseClicked
-        empleadoInterfaz empInter = new empleadoInterfaz();
+        empleadoInterfaz empInter = new empleadoInterfaz(getUsuario());
         empInter.setVisible(true);
         dispose();
     }//GEN-LAST:event_empleadoImageMouseClicked
 
     private void usuarioImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usuarioImageMouseClicked
-        usuarioInterfaz usuarioInter = new usuarioInterfaz();
+        usuarioInterfaz usuarioInter = new usuarioInterfaz(getUsuario());
         usuarioInter.setVisible(true);
         dispose();
     }//GEN-LAST:event_usuarioImageMouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(menuInterfazGer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(menuInterfazGer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(menuInterfazGer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(menuInterfazGer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new menuInterfazGer().setVisible(true);
-            }
-        });
-    }
+    private void cerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cerrarSesionMouseClicked
+        Login log = new Login();
+        log.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_cerrarSesionMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu cerrarSesion;
     private javax.swing.JLabel cuotaImage;
     private javax.swing.JLabel empleadoImage;
     private javax.swing.JLabel jLabel1;
@@ -164,7 +172,9 @@ public class menuInterfazGer extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblNombreUsuario;
     private javax.swing.JLabel nominaImage;
     private javax.swing.JLabel usuarioImage;
     // End of variables declaration//GEN-END:variables

@@ -6,6 +6,7 @@
 package GUI;
 
 import Entity.Empleado;
+import Entity.Usuario;
 import dao.empleadoDao;
 import daoMysql.empleadoDaoMysql;
 import java.text.ParseException;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -26,6 +28,16 @@ import javax.swing.table.DefaultTableModel;
  */
 public class empleadoInterfaz extends javax.swing.JFrame {
 
+    private Usuario usuario;
+    
+    public void setUsuario(Usuario usuario){
+        this.usuario = usuario;
+    }
+    
+    public Usuario getUsuario(){
+        return usuario;
+    }
+    
     /**
      * Creates new form empleadoInterfaz
      */
@@ -44,7 +56,7 @@ public class empleadoInterfaz extends javax.swing.JFrame {
     //Inicializa y carga los box de empleados desde la DB
     private void cargarComboBox(){
         DefaultComboBoxModel model = new DefaultComboBoxModel();
-           
+        
         List <Empleado> listaEmpleado = dao.obtenTodos();
         for(int j=0; j<listaEmpleado.size(); j++){
             model.addElement(listaEmpleado.get(j));
@@ -66,12 +78,14 @@ public class empleadoInterfaz extends javax.swing.JFrame {
     }
     
     //Constructor que inicializa todo lo necesario
-    public empleadoInterfaz() {
+    public empleadoInterfaz(Usuario usuario) {
         initComponents();
+        this.usuario = usuario;
         
         this.setLocationRelativeTo(null);
         lblFechaA.setText(Dates());
         
+        dao.setUsuario(getUsuario());
         cargarComboBox();
         activaBotones();
     }
@@ -125,6 +139,9 @@ public class empleadoInterfaz extends javax.swing.JFrame {
         lblapellidoPAct = new javax.swing.JLabel();
         lblApellidoMAct = new javax.swing.JLabel();
         lblSueldoAtc = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        cerrarSesion = new javax.swing.JMenu();
+        regresar = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -430,6 +447,24 @@ public class empleadoInterfaz extends javax.swing.JFrame {
 
         menuEmpleado.addTab("Actualizar", Actualizar);
 
+        cerrarSesion.setText("Cerrar Sesión");
+        cerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cerrarSesionMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(cerrarSesion);
+
+        regresar.setText("Regresar");
+        regresar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                regresarMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(regresar);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -450,6 +485,8 @@ public class empleadoInterfaz extends javax.swing.JFrame {
     private void agregarEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarEmpleadoActionPerformed
         Empleado empleado = new Empleado();
         
+        //dao.setUsuario(getUsuario());
+        
         empleado.setNombre(txtNombre.getText());
         empleado.setApellidoP(txtApellidoP.getText());
         empleado.setApellidoM(txtApellidoM.getText());
@@ -465,6 +502,7 @@ public class empleadoInterfaz extends javax.swing.JFrame {
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         Empleado empleado = (Empleado) empleadoBoxAct.getSelectedItem();
         Empleado empleadoActualiza =new Empleado();
+        //dao.setUsuario(getUsuario());
         
         empleadoActualiza.setCodigo(empleado.getCodigo());
         empleadoActualiza.setNombre(txtNombreAct.getText());
@@ -539,6 +577,7 @@ public class empleadoInterfaz extends javax.swing.JFrame {
      */
     private void btnSeleccionadoConActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionadoConActionPerformed
         
+        dao.setUsuario(getUsuario());
         List <Empleado> listaEmpleado = null;
         
         if(opc_1.isSelected()){
@@ -562,7 +601,7 @@ public class empleadoInterfaz extends javax.swing.JFrame {
      * CONSULTA A TODOS LOS EMPLEADOS QUE ESTEN ACTIVOS Y LOS AGREGA A LA TABLA CON UN MODELO
      */
     private void btnTodoConActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTodoConActionPerformed
-        
+        dao.setUsuario(getUsuario());
         List <Empleado> listaEmpleado = dao.obtenTodos();
         agregaEnTabla(listaEmpleado);
     }//GEN-LAST:event_btnTodoConActionPerformed
@@ -572,44 +611,31 @@ public class empleadoInterfaz extends javax.swing.JFrame {
      */
     private void btnEliminaEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminaEmpleadoActionPerformed
        Empleado empleado = (Empleado) empleadoBoxElim.getSelectedItem();
-       dao.Elimina(empleado);
-       cargarComboBox();
+       //dao.setUsuario(getUsuario());
+       if (JOptionPane.showConfirmDialog(rootPane, "¿Seguro que quiere eliminar?","¡ADVERTENCIA!", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+            dao.Elimina(empleado);
+            cargarComboBox();
+        }
     }//GEN-LAST:event_btnEliminaEmpleadoActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(empleadoInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(empleadoInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(empleadoInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(empleadoInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void cerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cerrarSesionMouseClicked
+        Login log = new Login();
+        log.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_cerrarSesionMouseClicked
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new empleadoInterfaz().setVisible(true);
-            }
-        });
-    }
+    private void regresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regresarMouseClicked
+        if(getUsuario().getRole().equals("CONTADOR")){
+            menuInterfazCon conInter = new menuInterfazCon(getUsuario());
+            conInter.setVisible(true);
+            dispose();
+        }else{
+            menuInterfazGer gerInter = new menuInterfazGer(getUsuario());
+            gerInter.setVisible(true);
+            dispose();
+        }
+    }//GEN-LAST:event_regresarMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Actualizar;
@@ -621,10 +647,12 @@ public class empleadoInterfaz extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminaEmpleado;
     private javax.swing.JToggleButton btnSeleccionadoCon;
     private javax.swing.JToggleButton btnTodoCon;
+    private javax.swing.JMenu cerrarSesion;
     private javax.swing.JComboBox<String> empleadoBoxAct;
     private javax.swing.JComboBox<String> empleadoBoxCon;
     private javax.swing.JComboBox<String> empleadoBoxElim;
     private javax.swing.ButtonGroup grupoBotonConsulta;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblApellidoM1;
     private javax.swing.JLabel lblApellidoMAct;
@@ -641,6 +669,7 @@ public class empleadoInterfaz extends javax.swing.JFrame {
     private javax.swing.JRadioButton opc_1;
     private javax.swing.JRadioButton opc_2;
     private javax.swing.JRadioButton opc_3;
+    private javax.swing.JMenu regresar;
     private javax.swing.JTable tablaEmpleado;
     private javax.swing.JTextField txtApellidoM;
     private javax.swing.JTextField txtApellidoMAct;

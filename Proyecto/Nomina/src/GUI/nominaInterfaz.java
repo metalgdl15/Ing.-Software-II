@@ -8,6 +8,7 @@ package GUI;
 import Entity.Empleado;
 import Entity.nominaEmpleado;
 import Entity.Nomina;
+import Entity.Usuario;
 import dao.empleadoDao;
 import dao.nominaDao;
 import dao.nominaEmpleadoDao;
@@ -17,6 +18,7 @@ import daoMysql.nominaEmpleadoDaoMysql;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -27,6 +29,11 @@ import javax.swing.table.DefaultTableModel;
  */
 public class nominaInterfaz extends javax.swing.JFrame {
 
+    private Usuario usuario;
+    
+    public Usuario getUsuario(){
+        return usuario;
+    }
     /**
      * Creates new form nominaInterfaz
      */
@@ -34,8 +41,14 @@ public class nominaInterfaz extends javax.swing.JFrame {
     private nominaEmpleadoDao daoNE = new nominaEmpleadoDaoMysql();
     private nominaDao daoN= new nominaDaoMysql();
     
-    public nominaInterfaz() {
+    public nominaInterfaz(Usuario usuario) {
         initComponents();
+        
+        this.setLocationRelativeTo(null);
+        
+        this.usuario = usuario;
+        daoNE.setUsuario(getUsuario());
+        daoN.setUsuario(getUsuario());
         
         cargarComboBoxEmpleado();
         cargarComboBoxNomina(1);
@@ -45,6 +58,7 @@ public class nominaInterfaz extends javax.swing.JFrame {
     private void cargarComboBoxEmpleado(){
         DefaultComboBoxModel model = new DefaultComboBoxModel();
         empleadoDao dao = new empleadoDaoMysql();
+        dao.setUsuario(getUsuario());
         
         List <Empleado> listaEmpleado = dao.obtenTodos();
         for(int j=0; j<listaEmpleado.size(); j++){
@@ -148,6 +162,9 @@ public class nominaInterfaz extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tableNomina = new javax.swing.JTable();
         btnEliminarRegistro = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        cerrarSesion = new javax.swing.JMenu();
+        regresar = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -227,7 +244,7 @@ public class nominaInterfaz extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 430, Short.MAX_VALUE)
+            .addGap(0, 411, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Eliminar", jPanel2);
@@ -297,8 +314,7 @@ public class nominaInterfaz extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnTodoCon, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(123, 123, 123)
-                        .addComponent(btnEmpleadoCon)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnEmpleadoCon))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -330,6 +346,24 @@ public class nominaInterfaz extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Consultar", jPanel3);
+
+        cerrarSesion.setText("Cerrar Sesión");
+        cerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cerrarSesionMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(cerrarSesion);
+
+        regresar.setText("Regresar");
+        regresar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                regresarMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(regresar);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -418,45 +452,32 @@ public class nominaInterfaz extends javax.swing.JFrame {
         
         int id = Integer.parseInt(tableNomina.getValueAt(row, 0).toString());
         
-        daoNE.Elimina(id);
-        modelo.removeRow(row);
+        if (JOptionPane.showConfirmDialog(rootPane, "¿Seguro que quiere eliminar?","¡ADVERTENCIA!", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+            daoNE.Elimina(id);
+            modelo.removeRow(row);
+        }
+        
         
     }//GEN-LAST:event_btnEliminarRegistroActionPerformed
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(nominaInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(nominaInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(nominaInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(nominaInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new nominaInterfaz().setVisible(true);
-            }
-        });
-    }
+    private void cerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cerrarSesionMouseClicked
+        Login log = new Login();
+        log.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_cerrarSesionMouseClicked
+
+    private void regresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regresarMouseClicked
+        if(getUsuario().getRole().equals("CONTADOR")){
+            menuInterfazCon conInter = new menuInterfazCon(getUsuario());
+            conInter.setVisible(true);
+            dispose();
+        }else{
+            menuInterfazGer gerInter = new menuInterfazGer(getUsuario());
+            gerInter.setVisible(true);
+            dispose();
+        }
+    }//GEN-LAST:event_regresarMouseClicked
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarN;
@@ -464,6 +485,7 @@ public class nominaInterfaz extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminarRegistro;
     private javax.swing.JButton btnEmpleadoCon;
     private javax.swing.JButton btnTodoCon;
+    private javax.swing.JMenu cerrarSesion;
     private javax.swing.JSpinner diasTrabajoSpinner;
     private javax.swing.JComboBox<String> empleadoBoxCon;
     private javax.swing.JComboBox<String> empleadoCombo;
@@ -475,6 +497,7 @@ public class nominaInterfaz extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -485,6 +508,7 @@ public class nominaInterfaz extends javax.swing.JFrame {
     private javax.swing.JLabel lblRegistro;
     private javax.swing.JComboBox<String> nominaCombo;
     private javax.swing.JComboBox<String> registroComboCon;
+    private javax.swing.JMenu regresar;
     private javax.swing.JTable tableNomina;
     private javax.swing.JComboBox<String> tipoCombo;
     private javax.swing.JTextField txtInfonavit;

@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package GUI;
+import Entity.Usuario;
 
 /**
  *
@@ -11,12 +12,31 @@ package GUI;
  */
 public class menuInterfazCon extends javax.swing.JFrame {
 
+    private Usuario usuario;
+    
+    public void setUsuario(Usuario usuario){
+        this.usuario = usuario;
+    }
+    
+    public Usuario getUsuario(){
+        return usuario;
+    }
     /**
      * Creates new form menuInterfazCon
      */
-    public menuInterfazCon() {
-        initComponents();
+    public menuInterfazCon(Usuario usuario) {
+        initComponents();        
+        this.setLocationRelativeTo(null);
+        this.usuario = usuario;
+        nombreUsuario();
     }
+    
+    //Vizualiza en nombre de usuario en el frame
+    private void nombreUsuario (){
+        String nombreUsuario = getUsuario().getApellidoP() + " " + getUsuario().getApellidoM() + " " + getUsuario().getNombre();
+        lblNombreUsuario.setText(nombreUsuario);
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -34,6 +54,9 @@ public class menuInterfazCon extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        lblNombreUsuario = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        cerrarSesion = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,37 +87,56 @@ public class menuInterfazCon extends javax.swing.JFrame {
 
         jLabel4.setText("Empleado");
 
+        cerrarSesion.setText("Cerrar Sesión");
+        cerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cerrarSesionMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(cerrarSesion);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(51, Short.MAX_VALUE)
-                .addComponent(cuotaImage)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
-                .addComponent(nominaImage)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
-                .addComponent(empleadoImage)
-                .addContainerGap(52, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(79, 79, 79)
-                .addComponent(jLabel2)
-                .addGap(106, 106, 106)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addGap(74, 74, 74))
+                .addContainerGap(46, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(cuotaImage)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(nominaImage)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(empleadoImage))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jLabel2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(110, 110, 110)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel4)
+                                .addGap(16, 16, 16))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(51, 51, 51)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblNombreUsuario, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addGap(113, 113, 113)))))))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(74, Short.MAX_VALUE)
+                .addGap(17, 17, 17)
+                .addComponent(lblNombreUsuario)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(35, 35, 35)
+                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
@@ -104,66 +146,43 @@ public class menuInterfazCon extends javax.swing.JFrame {
                     .addComponent(empleadoImage)
                     .addComponent(cuotaImage)
                     .addComponent(nominaImage))
-                .addContainerGap(125, Short.MAX_VALUE))
+                .addContainerGap(121, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void nominaImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nominaImageMouseClicked
-        nominaInterfaz nomInter = new nominaInterfaz();
+        nominaInterfaz nomInter = new nominaInterfaz(getUsuario());
         nomInter.setVisible(true);
         dispose();
     }//GEN-LAST:event_nominaImageMouseClicked
 
     private void empleadoImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_empleadoImageMouseClicked
-        empleadoInterfaz empInter = new empleadoInterfaz();
+        empleadoInterfaz empInter = new empleadoInterfaz(getUsuario());
+        
         empInter.setVisible(true);
         dispose();
     }//GEN-LAST:event_empleadoImageMouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(menuInterfazCon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(menuInterfazCon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(menuInterfazCon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(menuInterfazCon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void cerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cerrarSesionMouseClicked
+        Login log = new Login();
+        log.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_cerrarSesionMouseClicked
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new menuInterfazCon().setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu cerrarSesion;
     private javax.swing.JLabel cuotaImage;
     private javax.swing.JLabel empleadoImage;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JLabel lblNombreUsuario;
     private javax.swing.JLabel nominaImage;
     // End of variables declaration//GEN-END:variables
 }

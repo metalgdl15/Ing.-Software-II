@@ -21,14 +21,28 @@ import javax.swing.JOptionPane;
  */
 public class usuarioInterfaz extends javax.swing.JFrame {
 
+    private Usuario usuari;
+    
+    public Usuario getUsuario(){
+        return usuari;
+    }
+    
     /**
      * Creates new form usuarioInterfaz
      */
+    
+    
     private empleadoDao daoE = new empleadoDaoMysql();
     private usuarioDao daoU = new usuarioDaoMysql();
     
-    public usuarioInterfaz() {
+    public usuarioInterfaz(Usuario usuari) {
         initComponents();
+        
+        this.setLocationRelativeTo(null);
+        
+        this.usuari = usuari;
+        
+        daoE.setUsuario(getUsuario());
         
         grupoBotones.add(Gerente);
         grupoBotones.add(Empleado);
@@ -52,9 +66,6 @@ public class usuarioInterfaz extends javax.swing.JFrame {
             eliminaEmpleado.setEnabled(activo);
             eliminaNomina.setEnabled(activo);
             
-            leeCuota.setEnabled(activo);
-            leeEmpleado.setEnabled(activo);
-            leeNomina.setEnabled(activo);
             
             btnTodo.setEnabled(activo);
     }
@@ -85,12 +96,9 @@ public class usuarioInterfaz extends javax.swing.JFrame {
         agregaNomina = new javax.swing.JRadioButton();
         eliminaNomina = new javax.swing.JRadioButton();
         modificaNomina = new javax.swing.JRadioButton();
-        leeNomina = new javax.swing.JRadioButton();
-        leeEmpleado = new javax.swing.JRadioButton();
         modificaEmpleado = new javax.swing.JRadioButton();
         eliminaEmpleado = new javax.swing.JRadioButton();
         agregaEmpleado = new javax.swing.JRadioButton();
-        leeCuota = new javax.swing.JRadioButton();
         modificaCuota = new javax.swing.JRadioButton();
         eliminaCuota = new javax.swing.JRadioButton();
         agregaCuota = new javax.swing.JRadioButton();
@@ -109,6 +117,9 @@ public class usuarioInterfaz extends javax.swing.JFrame {
         btnTodo = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        cerrarSesion = new javax.swing.JMenu();
+        regresar = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -118,17 +129,11 @@ public class usuarioInterfaz extends javax.swing.JFrame {
 
         modificaNomina.setText("Modifica");
 
-        leeNomina.setText("Lee");
-
-        leeEmpleado.setText("Lee");
-
         modificaEmpleado.setText("Modifica");
 
         eliminaEmpleado.setText("Elimina");
 
         agregaEmpleado.setText("Agrega");
-
-        leeCuota.setText("Lee");
 
         modificaCuota.setText("Modifica");
 
@@ -181,26 +186,6 @@ public class usuarioInterfaz extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(lblCuota)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(agregaCuota)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(eliminaCuota)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(modificaCuota)
-                                    .addGap(12, 12, 12)
-                                    .addComponent(leeCuota))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addComponent(lblEmpleado)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(agregaEmpleado)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(eliminaEmpleado)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(modificaEmpleado)
-                                    .addGap(12, 12, 12)
-                                    .addComponent(leeEmpleado))
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                     .addComponent(lblNomina)
                                     .addGap(62, 62, 62)
@@ -208,9 +193,26 @@ public class usuarioInterfaz extends javax.swing.JFrame {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(eliminaNomina)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(modificaNomina)
-                                    .addGap(12, 12, 12)
-                                    .addComponent(leeNomina)))
+                                    .addComponent(modificaNomina))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(lblCuota)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(agregaCuota)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(eliminaCuota)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(modificaCuota))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                            .addComponent(lblEmpleado)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                                            .addComponent(agregaEmpleado)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(eliminaEmpleado)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(modificaEmpleado)))
+                                    .addGap(114, 114, 114)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(31, 31, 31)
                                 .addComponent(Empleado)
@@ -218,7 +220,7 @@ public class usuarioInterfaz extends javax.swing.JFrame {
                                 .addComponent(Contador)
                                 .addGap(47, 47, 47)
                                 .addComponent(Gerente)
-                                .addGap(50, 50, 50)))
+                                .addGap(99, 99, 99)))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel1)
@@ -228,12 +230,12 @@ public class usuarioInterfaz extends javax.swing.JFrame {
                                 .addComponent(empleadosBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(txtContrasenaI)
                                 .addComponent(txtContrasenaII, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(111, 111, 111)))
+                            .addGap(160, 160, 160)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnAgregar)
                         .addGap(29, 29, 29)
-                        .addComponent(btnTodo)))
-                .addGap(49, 49, 49))
+                        .addComponent(btnTodo)
+                        .addGap(49, 49, 49))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -258,21 +260,18 @@ public class usuarioInterfaz extends javax.swing.JFrame {
                     .addComponent(agregaNomina)
                     .addComponent(eliminaNomina)
                     .addComponent(modificaNomina)
-                    .addComponent(leeNomina)
                     .addComponent(lblNomina))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(agregaEmpleado)
                     .addComponent(eliminaEmpleado)
                     .addComponent(modificaEmpleado)
-                    .addComponent(leeEmpleado)
                     .addComponent(lblEmpleado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(agregaCuota)
                     .addComponent(eliminaCuota)
                     .addComponent(modificaCuota)
-                    .addComponent(leeCuota)
                     .addComponent(lblCuota))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -309,6 +308,24 @@ public class usuarioInterfaz extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Actualizar", jPanel3);
 
+        cerrarSesion.setText("Cerrar Sesión ");
+        cerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cerrarSesionMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(cerrarSesion);
+
+        regresar.setText("Regresar");
+        regresar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                regresarMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(regresar);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -323,7 +340,7 @@ public class usuarioInterfaz extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         pack();
@@ -367,13 +384,13 @@ public class usuarioInterfaz extends javax.swing.JFrame {
                 //ASIGNAMOS LOS ROLES
                 if(role == "CONTADOR"){
                     
-                    //Cuota
+                    //Cuota            
+                    usuario.cuoPriv[1] = "select";
+                    
                     if (agregaCuota.isSelected()){
-                        usuario.cuoPriv[0] = "create";
+                        usuario.cuoPriv[0] = "insert";
                     }
-                    if(leeCuota.isSelected()){
-                        usuario.cuoPriv[1] = "select";
-                    }
+                    
                     if(modificaCuota.isSelected()){
                         usuario.cuoPriv[2] = "update";
                     }
@@ -382,12 +399,12 @@ public class usuarioInterfaz extends javax.swing.JFrame {
                     }
                     
                     //Empleado
+                    usuario.empPriv[1] = "select";
+                    
                     if(agregaEmpleado.isSelected()){
-                        usuario.empPriv[0] = "create";
+                        usuario.empPriv[0] = "insert";
                     }
-                    if(leeEmpleado.isSelected()){
-                        usuario.empPriv[1] = "select";
-                    }
+
                     if (modificaEmpleado.isSelected()){
                         usuario.empPriv[2] = "update";
                     }
@@ -396,12 +413,12 @@ public class usuarioInterfaz extends javax.swing.JFrame {
                     }
                     
                     //Nomina
+                    usuario.nomPriv[1] = "select";
+                    
                     if(agregaNomina.isSelected()){
-                        usuario.nomPriv[0] = "create";
+                        usuario.nomPriv[0] = "insert";
                     }
-                    if(leeNomina.isSelected()){
-                        usuario.nomPriv[1] = "select";
-                    }
+                    
                     if(modificaNomina.isSelected()){
                         usuario.nomPriv[2] = "update";
                     }
@@ -434,10 +451,6 @@ public class usuarioInterfaz extends javax.swing.JFrame {
         agregaEmpleado.setSelected(true);
         agregaNomina.setSelected(true);
         
-        leeCuota.setSelected(true);
-        leeEmpleado.setSelected(true);
-        leeNomina.setSelected(true);
-        
         modificaCuota.setSelected(true);
         modificaEmpleado.setSelected(true);
         modificaNomina.setSelected(true);
@@ -447,40 +460,58 @@ public class usuarioInterfaz extends javax.swing.JFrame {
         eliminaNomina.setSelected(true);
     }//GEN-LAST:event_btnTodoActionPerformed
 
+    private void cerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cerrarSesionMouseClicked
+        Login log = new Login();
+        log.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_cerrarSesionMouseClicked
+
+    private void regresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regresarMouseClicked
+        if(getUsuario().getRole().equals("CONTADOR")){
+            menuInterfazCon conInter = new menuInterfazCon(getUsuario());
+            conInter.setVisible(true);
+            dispose();
+        }else{
+            menuInterfazGer gerInter = new menuInterfazGer(getUsuario());
+            gerInter.setVisible(true);
+            dispose();
+        }
+    }//GEN-LAST:event_regresarMouseClicked
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(usuarioInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(usuarioInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(usuarioInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(usuarioInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new usuarioInterfaz().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(usuarioInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(usuarioInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(usuarioInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(usuarioInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new usuarioInterfaz().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton Contador;
@@ -491,6 +522,7 @@ public class usuarioInterfaz extends javax.swing.JFrame {
     private javax.swing.JRadioButton agregaNomina;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnTodo;
+    private javax.swing.JMenu cerrarSesion;
     private javax.swing.JRadioButton eliminaCuota;
     private javax.swing.JRadioButton eliminaEmpleado;
     private javax.swing.JRadioButton eliminaNomina;
@@ -498,6 +530,7 @@ public class usuarioInterfaz extends javax.swing.JFrame {
     private javax.swing.ButtonGroup grupoBotones;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -505,12 +538,10 @@ public class usuarioInterfaz extends javax.swing.JFrame {
     private javax.swing.JLabel lblCuota;
     private javax.swing.JLabel lblEmpleado;
     private javax.swing.JLabel lblNomina;
-    private javax.swing.JRadioButton leeCuota;
-    private javax.swing.JRadioButton leeEmpleado;
-    private javax.swing.JRadioButton leeNomina;
     private javax.swing.JRadioButton modificaCuota;
     private javax.swing.JRadioButton modificaEmpleado;
     private javax.swing.JRadioButton modificaNomina;
+    private javax.swing.JMenu regresar;
     private javax.swing.JPasswordField txtContrasenaI;
     private javax.swing.JPasswordField txtContrasenaII;
     // End of variables declaration//GEN-END:variables

@@ -7,6 +7,7 @@ package daoMysql;
 
 import Entity.Empleado;
 import Entity.Nomina;
+import Entity.Usuario;
 import Entity.nominaEmpleado;
 import dao.nominaEmpleadoDao;
 import java.sql.PreparedStatement;
@@ -16,12 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Adan
  */
 public class nominaEmpleadoDaoMysql implements nominaEmpleadoDao{
+    private Usuario usuario;
 
     //Contstante de sueldo minimo
     private static final double threeUMA=241.8;
@@ -63,7 +66,6 @@ public class nominaEmpleadoDaoMysql implements nominaEmpleadoDao{
         return spe_isr;
     }
     
-    
     @Override
     public void Agrega(nominaEmpleado nominaEmp) {
        //PRIMERO SE HACE LOS CALCULOS
@@ -97,11 +99,18 @@ public class nominaEmpleadoDaoMysql implements nominaEmpleadoDao{
                 + "VALUES (?,?,?,?,?,?,?,?,?,?)";
         
         Conexion conexion = new Conexion();
-        conexion.newConnection();
+        
+        String clave = Integer.toString(getUsuario().getCodigo());
+        String password = getUsuario().getContrasena();
+        
+        //conexion.newConnection();
         
         PreparedStatement stmt;
         
         try {
+            
+            conexion.newConnetionCont(clave, password);
+            
             stmt = conexion.getConnection().prepareStatement(query);
             stmt.setInt(1, nominaEmp.getNomina().getId());
             stmt.setInt(2, nominaEmp.getEmpleado().getCodigo());
@@ -118,6 +127,7 @@ public class nominaEmpleadoDaoMysql implements nominaEmpleadoDao{
             
             stmt.close();
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Verifique sus derechos con el administrador", "¡¡¡ERROR!!!",JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(nominaDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
             conexion.Salir();
@@ -129,18 +139,23 @@ public class nominaEmpleadoDaoMysql implements nominaEmpleadoDao{
         Conexion conexion = new Conexion();
         conexion.newConnection();
         
-        String query = "UPDATE nominaEmpleado SET";
+        String query = "UPDATE nominaEmpleado SET"; 
     }
 
     @Override
     public void Elimina(int id) {
         String query = "DELETE FROM nominaEmpleado WHERE id =?";
         Conexion conexion = new Conexion();
-        conexion.newConnection();
+        
+        String clave = Integer.toString(getUsuario().getCodigo());
+        String password = getUsuario().getContrasena();
         
         PreparedStatement stmt;
         
         try {
+            
+            conexion.newConnetionCont(clave, password);
+            
             stmt = conexion.getConnection().prepareStatement(query);
             stmt.setInt(1, id);
             
@@ -148,6 +163,7 @@ public class nominaEmpleadoDaoMysql implements nominaEmpleadoDao{
             
             stmt.close();
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Verifique sus derechos con el administrador", "¡¡¡ERROR!!!",JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(nominaEmpleadoDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
             conexion.Salir();
@@ -206,7 +222,7 @@ public class nominaEmpleadoDaoMysql implements nominaEmpleadoDao{
                 nominaList.add(nominaEmp);
             }
         } catch (SQLException ex) {
-            System.out.println("ERROOOOR");
+            JOptionPane.showMessageDialog(null, "Verifique sus derechos con el administrador", "¡¡¡ERROR!!!",JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(nominaEmpleadoDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
         }
         return nominaList;
@@ -270,7 +286,7 @@ public class nominaEmpleadoDaoMysql implements nominaEmpleadoDao{
                 nominaList.add(nominaEmp);
             }
         } catch (SQLException ex) {
-            System.out.println("ERROOOOR");
+            JOptionPane.showMessageDialog(null, "Verifique sus derechos con el administrador", "¡¡¡ERROR!!!",JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(nominaEmpleadoDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
         }
         return nominaList;
@@ -329,10 +345,20 @@ public class nominaEmpleadoDaoMysql implements nominaEmpleadoDao{
                 nominaList.add(nominaEmp);
             }
         } catch (SQLException ex) {
-            System.out.println("ERROOOOR");
+            JOptionPane.showMessageDialog(null, "Verifique sus derechos con el administrador", "¡¡¡ERROR!!!",JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(nominaEmpleadoDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
         }
         return nominaList;
+    }
+
+    @Override
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    @Override
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
     
 }

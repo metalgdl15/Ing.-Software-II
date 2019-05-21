@@ -28,6 +28,12 @@ public class Usuario {
             empPriv[i] = "";
             cuoPriv[i] = "";
         }
+        
+        this.nombre = "";
+        this.apellidoM = "";
+        this.apellidoP = "";
+        this.contrasena = "";
+        this.role = "";
     }
     /**
      * @return the Codigo
@@ -113,5 +119,7 @@ public class Usuario {
         this.role = role;
     }
     
-    
+    public String toString (){
+        return getApellidoP() + " " + getApellidoM()+ " " + getNombre();
+    }
 }

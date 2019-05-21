@@ -5,6 +5,7 @@
  */
 package dao;
 
+import Entity.Usuario;
 import Entity.nominaEmpleado;
 import java.util.List;
 
@@ -13,6 +14,10 @@ import java.util.List;
  * @author Adan
  */
 public interface nominaEmpleadoDao {
+    
+        public Usuario getUsuario();
+        public void setUsuario(Usuario usuario);
+    
         public void Agrega(nominaEmpleado nominaEmp);
         public void Actualiza (nominaEmpleado nominaEmp);
         public void Elimina (int id); 

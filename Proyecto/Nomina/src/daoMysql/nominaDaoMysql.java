@@ -7,6 +7,7 @@ package daoMysql;
 
 import Entity.Empleado;
 import Entity.Nomina;
+import Entity.Usuario;
 import dao.empleadoDao;
 import dao.nominaDao;
 import java.sql.PreparedStatement;
@@ -16,16 +17,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Adan
  */
 public class nominaDaoMysql implements nominaDao{
+    
+    private Usuario usuario;
 
     @Override
     public void Agrega(Nomina nomina) {
         Conexion conexion = new Conexion();
-        conexion.newConnection();
+        //conexion.newConnection();
+        
+        String clave = Integer.toString(getUsuario().getCodigo());
+        String password = getUsuario().getContrasena();
         
         String query = "INSERT INTO nomina (fecha_inicio, fecha_fin, tipo) VALUES (?,?,?)";
         
@@ -35,6 +42,8 @@ public class nominaDaoMysql implements nominaDao{
         java.sql.Date fechaFin= new java.sql.Date(nomina.getFechaFin().getTime());
         
         try {
+            
+            conexion.newConnetionCont(clave, password);
             stmt = conexion.getConnection().prepareStatement(query);
             
             stmt.setDate(1, fechaInicio);
@@ -45,6 +54,7 @@ public class nominaDaoMysql implements nominaDao{
             stmt.close();
             
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Verifique sus derechos con el administrador", "¡¡¡ERROR!!!",JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(nominaDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
             conexion.Salir();
@@ -90,6 +100,7 @@ public class nominaDaoMysql implements nominaDao{
             
             
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Verifique sus derechos con el administrador", "¡¡¡ERROR!!!",JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(nominaDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
             conexion.Salir();
@@ -125,6 +136,7 @@ public class nominaDaoMysql implements nominaDao{
             
             
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Verifique sus derechos con el administrador", "¡¡¡ERROR!!!",JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(nominaDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
             conexion.Salir();
@@ -157,11 +169,23 @@ public class nominaDaoMysql implements nominaDao{
             
             
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Verifique sus derechos con el administrador", "¡¡¡ERROR!!!",JOptionPane.WARNING_MESSAGE);
+            
             Logger.getLogger(nominaDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
             conexion.Salir();
         }
         return nomina;
+    }
+
+    @Override
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    @Override
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
     
 

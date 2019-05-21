@@ -7,12 +7,17 @@ package dao;
 
 import Entity.Nomina;
 import Entity.Empleado;
+import Entity.Usuario;
 import java.util.List;
 /**
  *
  * @author Adan
  */
 public interface nominaDao {
+    
+        public Usuario getUsuario();
+        public void setUsuario(Usuario usuario);
+        
         public void Agrega(Nomina nomina);
         public void Actualiza (Nomina nomina);
         public void Elimina (Nomina nomina); 

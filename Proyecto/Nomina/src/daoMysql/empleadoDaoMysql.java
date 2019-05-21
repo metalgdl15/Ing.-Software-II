@@ -5,6 +5,7 @@
  */
 package daoMysql;
 import Entity.Empleado;
+import Entity.Usuario;
 import dao.empleadoDao;
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,17 +18,25 @@ import javax.swing.JOptionPane;
  * @author Adan
  */
 public class empleadoDaoMysql implements empleadoDao {
+    private Usuario usuario;
 
     @Override
     public void agrega(Empleado empleado) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         
+        String  clave = Integer.toString(getUsuario().getCodigo());
+        String  password = getUsuario().getContrasena();
+        
+        System.out.println(clave + " contraseña: "+ password);
+        
         Conexion conexion = new Conexion();        
-        conexion.newConnection();
+        
         String query = "INSERT INTO empleado (nombre, apellidoP , apellidoM, sueldoDiario, fechaIngreso, activo) VALUES (?,?,?,?,?,?)";
         
         PreparedStatement stmt;
         try {
+            conexion.newConnetionCont(clave, password);
+            
             stmt = conexion.getConnection().prepareStatement(query);
             
             java.sql.Date fechaActual= new java.sql.Date( empleado.getFehcaIngreso().getTime());
@@ -43,6 +52,7 @@ public class empleadoDaoMysql implements empleadoDao {
             stmt.close();
            
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Verifique sus derechos con el administrador", "¡¡¡ERROR!!!",JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(empleadoDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
             conexion.Salir();
@@ -52,13 +62,14 @@ public class empleadoDaoMysql implements empleadoDao {
 
     @Override
     public void Actualiza(Empleado empleado) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        Conexion conexion = new Conexion();
-        conexion.newConnection();
+        String  clave = Integer.toString(getUsuario().getCodigo());
+        String  password = getUsuario().getContrasena();
         
+        Conexion conexion = new Conexion();
+
         try {
             String query;
-            
+            conexion.newConnetionCont(clave, password);
             
             PreparedStatement stmt;
             
@@ -112,8 +123,7 @@ public class empleadoDaoMysql implements empleadoDao {
             
 
         } catch (SQLException ex) {
-            System.out.println("ERROR");
-            JOptionPane.showMessageDialog(null, "No se pudo modificar \n verifique sus derechos con el administrador o vuelva intentar");
+            JOptionPane.showMessageDialog(null, "Verifique sus derechos con el administrador", "¡¡¡ERROR!!!",JOptionPane.WARNING_MESSAGE);
         }finally{
             conexion.Salir();
         }   
@@ -122,23 +132,26 @@ public class empleadoDaoMysql implements empleadoDao {
 
     @Override
     public void Elimina(Empleado empleado) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        String  clave = Integer.toString(getUsuario().getCodigo());
+        String  password = getUsuario().getContrasena();
         
         Conexion conexion = new Conexion();        
-        conexion.newConnection();
         
-        String query= "UPDATE empleado SET activo=? WHERE codigo=?";
+        String query= "DELETE FROM empleado WHERE codigo=?";
         
         PreparedStatement stmt;
         try{
-            stmt = conexion.getConnection().prepareStatement(query);
+            conexion.newConnetionCont(clave, password);
             
-            stmt.setInt(1, 0);
-            stmt.setInt(2, empleado.getCodigo());
+            stmt = conexion.getConnection().prepareStatement(query);          
+            
+            //stmt.setInt(1, 0);
+            stmt.setInt(1, empleado.getCodigo());
             
             stmt.executeUpdate();
         }catch(SQLException ex){
-               System.out.println("ERROR");
+               JOptionPane.showMessageDialog(null, "Verifique sus derechos con el administrador", "¡¡¡ERROR!!!",JOptionPane.WARNING_MESSAGE);
         }finally{
             conexion.Salir();
         }
@@ -160,13 +173,15 @@ public class empleadoDaoMysql implements empleadoDao {
          */
         String queryEmpleado="SELECT *, 1+TIMESTAMPDIFF(YEAR,fechaIngreso,CURDATE()) AS ant FROM empleado";
         String query =" SELECT e.*, i.sdi*e.sueldoDiario FROM ("+queryEmpleado+") e "
-                + "INNER JOIN imss i ON e.ant = i.anyo WHERE e.activo=? ORDER BY e.apellidoP, e.apellidoM ";
+                + "INNER JOIN imss i ON e.ant = i.anyo WHERE e.activo=? AND e.codigo!=? ORDER BY e.apellidoP, e.apellidoM ";
         PreparedStatement stmt;
         
         try {
             
             stmt = conexion.getConnection().prepareStatement(query);
             stmt.setInt(1, 1);
+            stmt.setInt(2, getUsuario().getCodigo());
+            
             ResultSet rs = stmt.executeQuery();
             
             while (rs.next()){
@@ -185,6 +200,7 @@ public class empleadoDaoMysql implements empleadoDao {
             
             
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Verifique sus derechos con el administrador", "¡¡¡ERROR!!!",JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(empleadoDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
             
         }finally{
@@ -231,6 +247,7 @@ public class empleadoDaoMysql implements empleadoDao {
             }
             
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Verifique sus derechos con el administrador", "¡¡¡ERROR!!!",JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(empleadoDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
             
         }finally{
@@ -276,6 +293,7 @@ public class empleadoDaoMysql implements empleadoDao {
             }
             
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Verifique sus derechos con el administrador", "¡¡¡ERROR!!!",JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(empleadoDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
             
         }finally{
@@ -321,6 +339,7 @@ public class empleadoDaoMysql implements empleadoDao {
             }
             
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Verifique sus derechos con el administrador", "¡¡¡ERROR!!!",JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(empleadoDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
             
         }finally{
@@ -338,4 +357,14 @@ public class empleadoDaoMysql implements empleadoDao {
     public List<Empleado> obtenMenotAntiguedad() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }    
+
+    @Override
+    public Usuario getUsuario() {
+     return usuario;
+    }
+
+    @Override
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 }
