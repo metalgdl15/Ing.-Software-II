@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -52,6 +53,8 @@ public class nominaInterfaz extends javax.swing.JFrame {
         
         cargarComboBoxEmpleado();
         cargarComboBoxNomina(1);
+        SpinnerModelA(1);
+        SpinnerModelB(1);
     }
     
     //Inicializa y carga los box de empleados desde la DB
@@ -80,6 +83,7 @@ public class nominaInterfaz extends javax.swing.JFrame {
         }
         
         nominaCombo.setModel(model);
+        nominaComboConsulta.setModel(model);
         //empleadoBoxCon.setModel(model);
     }
     
@@ -123,6 +127,34 @@ public class nominaInterfaz extends javax.swing.JFrame {
        tableNomina.getColumnModel().getColumn(7).setCellRenderer(tcr);
        tableNomina.getColumnModel().getColumn(8).setCellRenderer(tcr);
     }
+    
+    //Actualizar el primer spinner
+    private void SpinnerModelA(int tipo){
+        if (tipo == 1){
+            SpinnerNumberModel model = new SpinnerNumberModel(0,0,7,1);
+            diasTrabajoSpinner.setModel(model);
+        }else if (tipo == 2){
+            SpinnerNumberModel model = new SpinnerNumberModel(0,0,31,1);
+            diasTrabajoSpinner.setModel(model);
+        }else if (tipo == 3){
+            SpinnerNumberModel model = new SpinnerNumberModel(0,0,365,1);
+            diasTrabajoSpinner.setModel(model);
+        }
+    }
+    
+    //Actualizar el segundo spinner
+    private void SpinnerModelB(int tipo){
+        if (tipo == 1){
+            SpinnerNumberModel model = new SpinnerNumberModel(0,0,7,1);
+            diasTrabajoSpinnerCambio.setModel(model);
+        }else if (tipo == 2){
+            SpinnerNumberModel model = new SpinnerNumberModel(0,0,31,1);
+            diasTrabajoSpinnerCambio.setModel(model);
+        }else if (tipo == 3){
+            SpinnerNumberModel model = new SpinnerNumberModel(0,0,365,1);
+            diasTrabajoSpinnerCambio.setModel(model);
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -153,7 +185,6 @@ public class nominaInterfaz extends javax.swing.JFrame {
         diasTrabajoSpinner = new javax.swing.JSpinner();
         jLabel6 = new javax.swing.JLabel();
         btnAgregarNE = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         registroComboCon = new javax.swing.JComboBox<>();
         empleadoBoxCon = new javax.swing.JComboBox<>();
@@ -162,6 +193,14 @@ public class nominaInterfaz extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tableNomina = new javax.swing.JTable();
         btnEliminarRegistro = new javax.swing.JButton();
+        lblDiasTrabajados = new javax.swing.JLabel();
+        lblInfonavitCambio = new javax.swing.JLabel();
+        diasTrabajoSpinnerCambio = new javax.swing.JSpinner();
+        txtInfonavitCambio = new javax.swing.JTextField();
+        btnModificar = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        nominaComboConsulta = new javax.swing.JComboBox<>();
+        btnFechaCon = new javax.swing.JToggleButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         cerrarSesion = new javax.swing.JMenu();
         regresar = new javax.swing.JMenu();
@@ -236,20 +275,12 @@ public class nominaInterfaz extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Agregar", jPanel1);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 630, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 411, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Eliminar", jPanel2);
-
         registroComboCon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semanal", "Mensual", "Anual" }));
+        registroComboCon.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                registroComboConItemStateChanged(evt);
+            }
+        });
 
         btnTodoCon.setText("Todo");
         btnTodoCon.addActionListener(new java.awt.event.ActionListener() {
@@ -301,48 +332,98 @@ public class nominaInterfaz extends javax.swing.JFrame {
             }
         });
 
+        lblDiasTrabajados.setText("Días Trabajados:");
+
+        lblInfonavitCambio.setText("Infonavit:");
+
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("Para realizar una acción seleccione la fila de la tabla");
+
+        btnFechaCon.setText("Fecha");
+        btnFechaCon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFechaConActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(empleadoBoxCon, 0, 183, Short.MAX_VALUE)
+                            .addComponent(registroComboCon, 0, 183, Short.MAX_VALUE)
+                            .addComponent(nominaComboConsulta, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addGap(44, 44, 44)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
+                            .addComponent(jLabel7)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnTodoCon, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(123, 123, 123)
-                        .addComponent(btnEmpleadoCon))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(empleadoBoxCon, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(registroComboCon, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(47, 47, 47)
+                        .addComponent(btnFechaCon, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52)
+                        .addComponent(btnEmpleadoCon)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(36, 36, 36))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(53, 53, 53)
-                .addComponent(btnEliminarRegistro)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblInfonavitCambio)
+                    .addComponent(lblDiasTrabajados))
+                .addGap(39, 39, 39)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(diasTrabajoSpinnerCambio, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtInfonavitCambio, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(53, 53, 53)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnEliminarRegistro)
+                    .addComponent(btnModificar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(72, 72, 72)
-                .addComponent(registroComboCon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(41, 41, 41)
                 .addComponent(empleadoBoxCon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(registroComboCon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(nominaComboConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEmpleadoCon)
-                    .addComponent(btnTodoCon))
-                .addGap(30, 30, 30)
+                    .addComponent(btnFechaCon)
+                    .addComponent(btnTodoCon)
+                    .addComponent(btnEmpleadoCon))
+                .addGap(24, 24, 24)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnEliminarRegistro)
-                .addContainerGap())
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDiasTrabajados)
+                    .addComponent(diasTrabajoSpinnerCambio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminarRegistro))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblInfonavitCambio)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtInfonavitCambio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnModificar)))
+                .addGap(78, 78, 78))
         );
 
         jTabbedPane1.addTab("Consultar", jPanel3);
@@ -377,9 +458,8 @@ public class nominaInterfaz extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane1)
-                .addContainerGap())
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         pack();
@@ -397,6 +477,7 @@ public class nominaInterfaz extends javax.swing.JFrame {
         agregaEnTabla(listaNomina);
     }//GEN-LAST:event_btnTodoConActionPerformed
 
+    //Carga los elementos de agregar segun su tipo
     private void tipoComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tipoComboItemStateChanged
         int tipo = 0;
 
@@ -406,6 +487,7 @@ public class nominaInterfaz extends javax.swing.JFrame {
             case "Anual": tipo = 3; break;
         }
         cargarComboBoxNomina(tipo);
+        SpinnerModelA(tipo);
     }//GEN-LAST:event_tipoComboItemStateChanged
 
     private void btnAgregarNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarNActionPerformed
@@ -477,6 +559,82 @@ public class nominaInterfaz extends javax.swing.JFrame {
             dispose();
         }
     }//GEN-LAST:event_regresarMouseClicked
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        int row = tableNomina.getSelectedRow();
+        double infonavit;
+
+        if (row >-1){
+            
+            
+            nominaEmpleado nominaE = new nominaEmpleado();
+            Nomina nomina = (Nomina) nominaComboConsulta.getSelectedItem();
+            Empleado empleado= new Empleado();
+            
+            DefaultTableModel modelo = (DefaultTableModel) tableNomina.getModel();
+            
+            //Obtenemos el id de la nomina
+            nominaE.setId(Integer.parseInt(tableNomina.getValueAt(row, 0).toString()));
+             
+            //Capturamos el resultado de infonavit
+            if(txtInfonavitCambio.getText().equals("")){
+                infonavit = Double.parseDouble(tableNomina.getValueAt(row, 5).toString());
+            }else{
+                infonavit = Double.parseDouble(txtInfonavitCambio.getText());
+            }
+            
+            //Campturamos el resultado de dias trabajados
+            int diasTrabajados = Integer.parseInt(diasTrabajoSpinnerCambio.getValue().toString());
+            
+            if( diasTrabajados <= 0.0){
+                diasTrabajados = Integer.parseInt(tableNomina.getValueAt(row, 4).toString());
+            }
+            
+            //Obtenemos el sdi y sueldo del empleado para los calculos
+            double sdi = Double.parseDouble(tableNomina.getValueAt(row, 3).toString());
+            double sueldo = Double.parseDouble(tableNomina.getValueAt(row, 2).toString());
+            
+            empleado.setSdi(sdi);
+            empleado.setSueldo(sueldo);
+            
+            nominaE.setEmpleado(empleado);
+            
+            nominaE.setInfonavit(infonavit);
+            nominaE.setDiasTrabajados(diasTrabajados);
+            
+            //Obnetenos la nomina
+            nominaE.setNomina(nomina);
+                        
+            daoNE.Actualiza(nominaE);
+                        
+            //Limpiamos los campos de modificacion
+            diasTrabajoSpinnerCambio.setValue(0);
+            txtInfonavitCambio.setText("");
+            
+        }else{
+            System.out.println("Seleccione una nomina");
+        }
+        
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void registroComboConItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_registroComboConItemStateChanged
+        int tipo = 0;
+
+        switch (registroComboCon.getSelectedItem().toString()){
+            case "Semanal": tipo = 1; break;
+            case "Mensual": tipo = 2; break;
+            case "Anual": tipo = 3; break;
+        }
+        cargarComboBoxNomina(tipo);
+        SpinnerModelB(tipo);
+    }//GEN-LAST:event_registroComboConItemStateChanged
+
+    private void btnFechaConActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFechaConActionPerformed
+        Nomina nomina = (Nomina) nominaComboConsulta.getSelectedItem();
+        List <nominaEmpleado> listaNomina = daoNE.obtenNominaFecha(nomina.getId());
+        
+        agregaEnTabla(listaNomina);
+    }//GEN-LAST:event_btnFechaConActionPerformed
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -484,9 +642,12 @@ public class nominaInterfaz extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregarNE;
     private javax.swing.JButton btnEliminarRegistro;
     private javax.swing.JButton btnEmpleadoCon;
+    private javax.swing.JToggleButton btnFechaCon;
+    private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnTodoCon;
     private javax.swing.JMenu cerrarSesion;
     private javax.swing.JSpinner diasTrabajoSpinner;
+    private javax.swing.JSpinner diasTrabajoSpinnerCambio;
     private javax.swing.JComboBox<String> empleadoBoxCon;
     private javax.swing.JComboBox<String> empleadoCombo;
     private com.toedter.calendar.JDateChooser finDate;
@@ -497,20 +658,24 @@ public class nominaInterfaz extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblDiasTrabajados;
     private javax.swing.JLabel lblFechaFin;
     private javax.swing.JLabel lblFechaInicio;
+    private javax.swing.JLabel lblInfonavitCambio;
     private javax.swing.JLabel lblRegistro;
     private javax.swing.JComboBox<String> nominaCombo;
+    private javax.swing.JComboBox<String> nominaComboConsulta;
     private javax.swing.JComboBox<String> registroComboCon;
     private javax.swing.JMenu regresar;
     private javax.swing.JTable tableNomina;
     private javax.swing.JComboBox<String> tipoCombo;
     private javax.swing.JTextField txtInfonavit;
+    private javax.swing.JTextField txtInfonavitCambio;
     // End of variables declaration//GEN-END:variables
 }

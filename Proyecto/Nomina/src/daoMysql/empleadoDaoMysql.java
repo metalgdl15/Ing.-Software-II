@@ -27,8 +27,6 @@ public class empleadoDaoMysql implements empleadoDao {
         String  clave = Integer.toString(getUsuario().getCodigo());
         String  password = getUsuario().getContrasena();
         
-        System.out.println(clave + " contraseña: "+ password);
-        
         Conexion conexion = new Conexion();        
         
         String query = "INSERT INTO empleado (nombre, apellidoP , apellidoM, sueldoDiario, fechaIngreso, activo) VALUES (?,?,?,?,?,?)";

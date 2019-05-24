@@ -486,14 +486,20 @@ public class empleadoInterfaz extends javax.swing.JFrame {
         Empleado empleado = new Empleado();
         
         //dao.setUsuario(getUsuario());
-        
-        empleado.setNombre(txtNombre.getText());
-        empleado.setApellidoP(txtApellidoP.getText());
-        empleado.setApellidoM(txtApellidoM.getText());
-        empleado.setSueldo(Double.parseDouble(txtSueldoD.getText()));
-        empleado.setFehcaIngreso(txtFechaIngreso.getDate());
-        dao.agrega(empleado);
-        cargarComboBox();
+        if (txtNombre.getText().equals("") || txtApellidoP.getText().equals("") || txtApellidoM.getText().equals("")
+                || txtSueldoD.getText().equals("") || txtFechaIngreso.getDate() == null){
+            
+            JOptionPane.showMessageDialog(null, "Rellene todos los campos");
+            
+        }else{
+            empleado.setNombre(txtNombre.getText());
+            empleado.setApellidoP(txtApellidoP.getText());
+            empleado.setApellidoM(txtApellidoM.getText());
+            empleado.setSueldo(Double.parseDouble(txtSueldoD.getText()));
+            empleado.setFehcaIngreso(txtFechaIngreso.getDate());
+            dao.agrega(empleado);
+            cargarComboBox();
+        }
     }//GEN-LAST:event_agregarEmpleadoActionPerformed
 
     /**

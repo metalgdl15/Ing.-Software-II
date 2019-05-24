@@ -4,11 +4,13 @@
  * and open the template in the editor.
  */
 package daoMysql;
+import Entity.Empleado;
 import Entity.Usuario;
 import dao.usuarioDao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -201,12 +203,71 @@ public class usuarioDaoMysql implements usuarioDao{
 
     @Override
     public List<Usuario> obtenTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Conexion conexion = new Conexion();
+        conexion.newConnection();
+        
+        List <Usuario> listaUsuario = new ArrayList<Usuario>();
+        
+        String query = "SELECT e.codigo, e.nombre, e.apellidoP, e.apellidoM, u.role "
+                + "FROM usuario u INNER JOIN empleado e ON u.codigo=e.codigo WHERE u.role != 'ADMIN'";
+        
+        PreparedStatement stmt;
+        
+        try {
+            stmt=conexion.getConnection().prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()){
+                Usuario usuario = new Usuario();
+                
+                usuario.setCodigo(rs.getInt(1));
+                usuario.setNombre(rs.getString(2));
+                usuario.setApellidoP(rs.getString(3));
+                usuario.setApellidoM(rs.getString(4));
+                usuario.setRole(rs.getString(5));
+                
+                listaUsuario.add(usuario);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(usuarioDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listaUsuario;
     }
 
     @Override
-    public List<Usuario> obtenUsuario() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Usuario> obtenUsuarioAdmin() {
+        Conexion conexion = new Conexion();
+        conexion.newConnection();
+        
+        List <Usuario> listaUsuario = new ArrayList<Usuario>();
+        
+        String query = "SELECT e.codigo, e.nombre, e.apellidoP, e.apellidoM, u.role "
+                + "FROM usuario u INNER JOIN empleado e ON u.codigo=e.codigo WHERE u.role = 'ADMIN'";
+        
+        PreparedStatement stmt;
+        
+        try {
+            stmt=conexion.getConnection().prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()){
+                Usuario usuario = new Usuario();
+                
+                usuario.setCodigo(rs.getInt(1));
+                usuario.setNombre(rs.getString(2));
+                usuario.setApellidoP(rs.getString(3));
+                usuario.setApellidoM(rs.getString(4));
+                usuario.setRole(rs.getString(5));
+                
+                listaUsuario.add(usuario);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(usuarioDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        
+        return listaUsuario;
     }
 
     @Override
@@ -217,12 +278,28 @@ public class usuarioDaoMysql implements usuarioDao{
         PreparedStatement stmt;
         
         try {
-            
-            String query= "REVOKE ALL ON nomina.* FROM '"+usuario.getCodigo()+"'@'localhost'";
+            String query;
+            query= "REVOKE ALL ON nomina.empleado FROM '"+usuario.getCodigo()+"'@'localhost'";
             stmt = conexion.getConnection().prepareStatement(query);
-         
             stmt.executeUpdate();
+            
+            query= "REVOKE ALL ON nomina.nomina FROM '"+usuario.getCodigo()+"'@'localhost'";
+            stmt = conexion.getConnection().prepareStatement(query);
+            stmt.executeUpdate();
+            
+            query= "REVOKE ALL ON nomina.nominaEmpleado FROM '"+usuario.getCodigo()+"'@'localhost'";
+            stmt = conexion.getConnection().prepareStatement(query);
+            stmt.executeUpdate();
+            
+            query= "REVOKE ALL ON nomina.cuota FROM '"+usuario.getCodigo()+"'@'localhost'";
+            stmt = conexion.getConnection().prepareStatement(query);
+            stmt.executeUpdate();
+            
+            String queryF = "FLUSH PRIVILEGES";
+            stmt = conexion.getConnection().prepareStatement(queryF);
+            
             stmt.close();
+            
         } catch (SQLException ex) {
             Logger.getLogger(usuarioDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -236,6 +313,42 @@ public class usuarioDaoMysql implements usuarioDao{
     @Override
     public void otorgaTodosLosDerechos(Usuario usuario) {
         String queery = "GRANT ALL ON nomina.* TO ?@'localhost'";
+    }
+
+    @Override
+    public List<Empleado> obteneEmpleados() {
+        Conexion conexion = new Conexion();
+        conexion.newConnection();
+        
+        List <Empleado> listaEmpleado = new ArrayList<Empleado>();
+        
+        String query = "SELECT e.* FROM empleado e LEFT JOIN usuario u ON e.codigo = u.codigo WHERE u.codigo IS NULL";
+        
+        PreparedStatement stmt;
+        
+        try {
+            stmt=conexion.getConnection().prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()){
+                Empleado empleado = new Empleado();
+                
+                empleado.setCodigo(rs.getInt(1));
+                empleado.setNombre(rs.getString(2));
+                empleado.setApellidoP(rs.getString(3));
+                empleado.setApellidoM(rs.getString(4));
+                empleado.setFehcaIngreso(rs.getDate(5));
+                empleado.setSueldo(rs.getDouble(6));
+                
+                listaEmpleado.add(empleado);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(usuarioDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        return listaEmpleado;
     }
 
    

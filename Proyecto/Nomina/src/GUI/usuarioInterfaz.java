@@ -14,6 +14,9 @@ import daoMysql.usuarioDaoMysql;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -52,6 +55,37 @@ public class usuarioInterfaz extends javax.swing.JFrame {
         cargarComboBox();
     }
     
+
+    // PARA ALINEAR LOS DATOS DE LA TABLA
+    private void alinear(){
+       DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+       tcr.setHorizontalAlignment(SwingConstants.LEFT);
+               
+       tableUsuarios.getColumnModel().getColumn(0).setCellRenderer(tcr);
+       tableUsuarios.getColumnModel().getColumn(1).setCellRenderer(tcr);
+       tableUsuarios.getColumnModel().getColumn(2).setCellRenderer(tcr);
+    }
+    
+    //PARA MOSTRAR EL CONTENIDO EN LA TABLA 
+    private void agregaEnTabla(List <Usuario> listaUsuario){
+        
+        DefaultTableModel modelo = (DefaultTableModel) tableUsuarios.getModel();
+        modelo.setRowCount(0);
+        Object []emp=new Object[6];
+        for (int i=0; i<listaUsuario.size(); i++){
+            Usuario usuario = listaUsuario.get(i);
+            
+            emp[0] = usuario.getCodigo();
+            emp[1] = usuario.getApellidoP()+ " " +usuario.getApellidoM()+ " " + usuario.getNombre();
+            emp[2] = usuario.getRole();
+            
+            
+            modelo.addRow(emp);
+        }
+        
+        alinear();
+    }
+    
     //ACTIVAR BOTONES Y DESACTIVAR    
     private void activarBotenes(boolean activo){
             agregaCuota.setEnabled(activo);
@@ -66,15 +100,20 @@ public class usuarioInterfaz extends javax.swing.JFrame {
             eliminaEmpleado.setEnabled(activo);
             eliminaNomina.setEnabled(activo);
             
-            
+            ///
             btnTodo.setEnabled(activo);
+    }
+    
+    private void activaBotonesConsulta(boolean activo){
+        btnActualiza.setEnabled(activo);
+        btnEliminar.setEnabled(activo);
     }
 
     //Inicializa y carga los box de empleados desde la DB
     private void cargarComboBox(){
         DefaultComboBoxModel model = new DefaultComboBoxModel();
            
-        List <Empleado> listaEmpleado = daoE.obtenTodos();
+        List <Empleado> listaEmpleado = daoU.obteneEmpleados();
         for(int j=0; j<listaEmpleado.size(); j++){
             model.addElement(listaEmpleado.get(j));
         }
@@ -116,6 +155,24 @@ public class usuarioInterfaz extends javax.swing.JFrame {
         btnAgregar = new javax.swing.JButton();
         btnTodo = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableUsuarios = new javax.swing.JTable();
+        btnActualiza = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        btnUsuarios = new javax.swing.JToggleButton();
+        lblNomina1 = new javax.swing.JLabel();
+        agregaNominaActualiza = new javax.swing.JRadioButton();
+        eliminaNominaActualiza = new javax.swing.JRadioButton();
+        modificaNominaActualiza = new javax.swing.JRadioButton();
+        lblEmpleado1 = new javax.swing.JLabel();
+        agregaEmpleadoActualiza = new javax.swing.JRadioButton();
+        eliminaEmpleadoActualiza = new javax.swing.JRadioButton();
+        modificaEmpleadoActualiza = new javax.swing.JRadioButton();
+        modificaCuotaActualiza = new javax.swing.JRadioButton();
+        eliminaCuotaActualiza = new javax.swing.JRadioButton();
+        agregaCuotaActualiza = new javax.swing.JRadioButton();
+        lblCuota1 = new javax.swing.JLabel();
+        btnAdmin = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         cerrarSesion = new javax.swing.JMenu();
@@ -277,20 +334,161 @@ public class usuarioInterfaz extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregar)
                     .addComponent(btnTodo))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Agregar", jPanel1);
+
+        tableUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Codigo", "Nombre", "Role"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tableUsuarios);
+
+        btnActualiza.setText("Actualizar");
+        btnActualiza.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizaActionPerformed(evt);
+            }
+        });
+
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
+        btnUsuarios.setText("Mostrar Usuarios");
+        btnUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsuariosActionPerformed(evt);
+            }
+        });
+
+        lblNomina1.setText("Nómina:");
+
+        agregaNominaActualiza.setText("Agrega");
+
+        eliminaNominaActualiza.setText("Elimina");
+
+        modificaNominaActualiza.setText("Modifica");
+
+        lblEmpleado1.setText("Empleado:");
+
+        agregaEmpleadoActualiza.setText("Agrega");
+
+        eliminaEmpleadoActualiza.setText("Elimina");
+
+        modificaEmpleadoActualiza.setText("Modifica");
+
+        modificaCuotaActualiza.setText("Modifica");
+
+        eliminaCuotaActualiza.setText("Elimina");
+
+        agregaCuotaActualiza.setText("Agrega");
+
+        lblCuota1.setText("Cuota");
+
+        btnAdmin.setText("Mostrar Administradores");
+        btnAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdminActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 547, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(51, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnUsuarios)
+                        .addGap(133, 133, 133)
+                        .addComponent(btnAdmin))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(lblNomina1)
+                                .addGap(62, 62, 62)
+                                .addComponent(agregaNominaActualiza)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(eliminaNominaActualiza)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(modificaNominaActualiza))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(lblCuota1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(agregaCuotaActualiza)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(eliminaCuotaActualiza)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(modificaCuotaActualiza))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                    .addComponent(lblEmpleado1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(agregaEmpleadoActualiza)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(eliminaEmpleadoActualiza)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(modificaEmpleadoActualiza))))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnEliminar)
+                            .addComponent(btnActualiza))))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 393, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(55, 55, 55)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAdmin)
+                    .addComponent(btnUsuarios))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(agregaNominaActualiza)
+                            .addComponent(eliminaNominaActualiza)
+                            .addComponent(modificaNominaActualiza)
+                            .addComponent(lblNomina1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(agregaEmpleadoActualiza)
+                            .addComponent(eliminaEmpleadoActualiza)
+                            .addComponent(modificaEmpleadoActualiza)
+                            .addComponent(lblEmpleado1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(agregaCuotaActualiza)
+                            .addComponent(eliminaCuotaActualiza)
+                            .addComponent(modificaCuotaActualiza)
+                            .addComponent(lblCuota1)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addComponent(btnEliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnActualiza)))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Eliminar", jPanel2);
@@ -303,7 +501,7 @@ public class usuarioInterfaz extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 393, Short.MAX_VALUE)
+            .addGap(0, 379, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Actualizar", jPanel3);
@@ -338,9 +536,8 @@ public class usuarioInterfaz extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 30, Short.MAX_VALUE))
         );
 
         pack();
@@ -478,54 +675,127 @@ public class usuarioInterfaz extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_regresarMouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(usuarioInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(usuarioInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(usuarioInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(usuarioInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new usuarioInterfaz().setVisible(true);
-//            }
-//        });
-//    }
+    private void btnActualizaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizaActionPerformed
+        int row = tableUsuarios.getSelectedRow();
+        
+        if (row > 0){
+            Usuario usuario = new Usuario();
+            int codigo = Integer.parseInt(tableUsuarios.getValueAt(row, 0).toString());
+            String role = tableUsuarios.getValueAt(row, 2).toString();
+            
+            usuario.setCodigo(codigo);
+            
+                                
+            //Cuota            
+            usuario.cuoPriv[1] = "select";
+                    
+            if (agregaCuotaActualiza.isSelected()){
+                usuario.cuoPriv[0] = "insert";
+            }
+                    
+            if(modificaCuotaActualiza.isSelected()){
+                usuario.cuoPriv[2] = "update";
+            }
+            if(eliminaCuotaActualiza.isSelected()){
+                usuario.cuoPriv[3] = "delete";
+            }
+                    
+            //Empleado
+            usuario.empPriv[1] = "select";
+                    
+            if(agregaEmpleadoActualiza.isSelected()){
+                usuario.empPriv[0] = "insert";
+            }
+
+            if (modificaEmpleadoActualiza.isSelected()){
+                usuario.empPriv[2] = "update";
+            }
+            if(eliminaEmpleadoActualiza.isSelected()){
+                usuario.empPriv[3] = "delete";
+            }
+                    
+            //Nomina
+            usuario.nomPriv[1] = "select";
+                    
+             if(agregaNominaActualiza.isSelected()){
+                usuario.nomPriv[0] = "insert";
+            }
+                    
+            if(modificaNominaActualiza.isSelected()){
+                usuario.nomPriv[2] = "update";
+            }
+            if(eliminaNominaActualiza.isSelected()){
+                usuario.nomPriv[3] = "delete";
+            }
+            
+            daoU.quitarPrivilegios(usuario);
+            daoU.Actualiza(usuario);
+            
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Seleccione a un usuario");
+        }
+        
+    }//GEN-LAST:event_btnActualizaActionPerformed
+
+    private void btnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminActionPerformed
+        List <Usuario> listaUsuarios = daoU.obtenUsuarioAdmin();
+        agregaEnTabla(listaUsuarios);
+        
+        activaBotonesConsulta(false);
+    }//GEN-LAST:event_btnAdminActionPerformed
+
+    private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuariosActionPerformed
+        List <Usuario> listaUsuarios = daoU.obtenTodos();
+        
+        agregaEnTabla(listaUsuarios);
+        activaBotonesConsulta(true);
+    }//GEN-LAST:event_btnUsuariosActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int row = tableUsuarios.getSelectedRow();
+        
+        if(row >= 0){
+                    
+            if (JOptionPane.showConfirmDialog(rootPane, "¿Seguro que quiere eliminar?","¡ADVERTENCIA!", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+                Usuario usuario = new Usuario();
+                int codigo = Integer.parseInt(tableUsuarios.getValueAt(row, 0).toString());
+           
+            usuario.setCodigo(codigo);
+            
+                daoU.Elimina(usuario);
+                cargarComboBox();
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Seleccione a un usuario de la tabla");
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton Contador;
     private javax.swing.JRadioButton Empleado;
     private javax.swing.JRadioButton Gerente;
     private javax.swing.JRadioButton agregaCuota;
+    private javax.swing.JRadioButton agregaCuotaActualiza;
     private javax.swing.JRadioButton agregaEmpleado;
+    private javax.swing.JRadioButton agregaEmpleadoActualiza;
     private javax.swing.JRadioButton agregaNomina;
+    private javax.swing.JRadioButton agregaNominaActualiza;
+    private javax.swing.JButton btnActualiza;
+    private javax.swing.JButton btnAdmin;
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnTodo;
+    private javax.swing.JToggleButton btnUsuarios;
     private javax.swing.JMenu cerrarSesion;
     private javax.swing.JRadioButton eliminaCuota;
+    private javax.swing.JRadioButton eliminaCuotaActualiza;
     private javax.swing.JRadioButton eliminaEmpleado;
+    private javax.swing.JRadioButton eliminaEmpleadoActualiza;
     private javax.swing.JRadioButton eliminaNomina;
+    private javax.swing.JRadioButton eliminaNominaActualiza;
     private javax.swing.JComboBox<String> empleadosBox;
     private javax.swing.ButtonGroup grupoBotones;
     private javax.swing.JLabel jLabel1;
@@ -534,14 +804,22 @@ public class usuarioInterfaz extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblCuota;
+    private javax.swing.JLabel lblCuota1;
     private javax.swing.JLabel lblEmpleado;
+    private javax.swing.JLabel lblEmpleado1;
     private javax.swing.JLabel lblNomina;
+    private javax.swing.JLabel lblNomina1;
     private javax.swing.JRadioButton modificaCuota;
+    private javax.swing.JRadioButton modificaCuotaActualiza;
     private javax.swing.JRadioButton modificaEmpleado;
+    private javax.swing.JRadioButton modificaEmpleadoActualiza;
     private javax.swing.JRadioButton modificaNomina;
+    private javax.swing.JRadioButton modificaNominaActualiza;
     private javax.swing.JMenu regresar;
+    private javax.swing.JTable tableUsuarios;
     private javax.swing.JPasswordField txtContrasenaI;
     private javax.swing.JPasswordField txtContrasenaII;
     // End of variables declaration//GEN-END:variables

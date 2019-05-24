@@ -82,7 +82,7 @@ public class nominaEmpleadoDaoMysql implements nominaEmpleadoDao{
         double censatiaVejez = 0;
         
         if (threeUMA < sdi){
-            excedenteSMG = ((sdi-threeUMA)*nominaEmp.getDiasTrabajados())*0.40;
+            excedenteSMG = ((sdi-threeUMA)*nominaEmp.getDiasTrabajados())*0.0040;
         }
         
         prestacionesDinero = sdi* nominaEmp.getDiasTrabajados() * 0.0025;
@@ -137,9 +137,62 @@ public class nominaEmpleadoDaoMysql implements nominaEmpleadoDao{
     @Override
     public void Actualiza(nominaEmpleado nominaEmp) {
         Conexion conexion = new Conexion();
-        conexion.newConnection();
         
-        String query = "UPDATE nominaEmpleado SET"; 
+        //PRIMERO SE HACE LOS CALCULOS
+        double sdi = nominaEmp.getEmpleado().getSdi();
+        double sueldoTrabajo = nominaEmp.getDiasTrabajados()*nominaEmp.getEmpleado().getSueldo();
+        double isr_spe = obtenerSpe_Isr(sueldoTrabajo,nominaEmp.getNomina().getTipo()); //Verificar
+        
+        double sueldoNeto = 0;
+        double excedenteSMG = 0;
+        double prestacionesDinero = 0;
+        double prestacionesEspecie = 0;
+        double invalidez = 0;
+        double cuotaImss = 0;
+        double censatiaVejez = 0;
+        
+        if (threeUMA < sdi){
+            excedenteSMG = ((sdi-threeUMA)*nominaEmp.getDiasTrabajados())*0.0040;
+        }
+        
+        
+        prestacionesDinero = sdi* nominaEmp.getDiasTrabajados() * 0.0025;
+        prestacionesEspecie = sdi*nominaEmp.getDiasTrabajados() * 0.00375; 
+        invalidez = sdi*nominaEmp.getDiasTrabajados()*0.00625;
+        
+        cuotaImss = excedenteSMG + prestacionesDinero + prestacionesEspecie + invalidez;
+        censatiaVejez = sdi*.01125*nominaEmp.getDiasTrabajados();
+        sueldoNeto = sueldoTrabajo + isr_spe - nominaEmp.getInfonavit() - excedenteSMG - cuotaImss - censatiaVejez;        
+        
+        //DESDE AQUI ACTUALIZA
+        String clave = Integer.toString(getUsuario().getCodigo());
+        String password = getUsuario().getContrasena();
+        
+        String query = "UPDATE nominaEmpleado SET diasTrabajados=?, infonavit=?, cuotaImss=?, CesantiaVejez=?, spe_isr=?, sueldoNeto=?"
+                + " WHERE id=?"; 
+        
+        PreparedStatement stmt;
+        
+        System.out.println(nominaEmp.getId());
+        try {
+            conexion.newConnetionCont(clave , password );
+            stmt = conexion.getConnection().prepareStatement(query);
+            
+            stmt.setInt(1, nominaEmp.getDiasTrabajados());
+            stmt.setDouble(2, nominaEmp.getInfonavit());
+            stmt.setDouble(3, cuotaImss);
+            stmt.setDouble(4, censatiaVejez);
+            stmt.setDouble(5, isr_spe);
+            stmt.setDouble(6, sueldoNeto);
+            stmt.setInt(7, nominaEmp.getId());
+            
+            stmt.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Se ha actualizado. Vuelva a cargar la tabla");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Verifique sus derechos con el administrador", "¡¡¡ERROR!!!",JOptionPane.WARNING_MESSAGE);
+            Logger.getLogger(nominaEmpleadoDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

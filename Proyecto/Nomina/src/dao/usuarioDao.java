@@ -6,6 +6,7 @@
 package dao;
 
 import Entity.Usuario;
+import Entity.Empleado;
 import java.util.List;
 
 /**
@@ -21,5 +22,6 @@ public interface usuarioDao {
         public void Elimina (Usuario usuario); 
         public void quitarPrivilegios(Usuario Usuario);
         public List <Usuario> obtenTodos();
-        public List <Usuario> obtenUsuario();
+        public List <Usuario> obtenUsuarioAdmin();
+        public List <Empleado> obteneEmpleados();
 }
