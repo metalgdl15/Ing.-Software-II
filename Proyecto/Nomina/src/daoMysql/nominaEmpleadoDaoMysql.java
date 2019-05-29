@@ -125,6 +125,7 @@ public class nominaEmpleadoDaoMysql implements nominaEmpleadoDao{
             
             stmt.executeUpdate();
             
+            JOptionPane.showMessageDialog(null, "Se añadio el emplado en la nómina");
             stmt.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Verifique sus derechos con el administrador", "¡¡¡ERROR!!!",JOptionPane.WARNING_MESSAGE);
@@ -412,6 +413,66 @@ public class nominaEmpleadoDaoMysql implements nominaEmpleadoDao{
     @Override
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    @Override
+    public List<nominaEmpleado> obtenNominaEmpleadoFecha(int idNomina, int idEmpleado) {
+        Conexion conexion = new Conexion();
+        conexion.newConnection();
+        
+        List <nominaEmpleado> nominaList = new ArrayList();
+        
+        String query = "SELECT ne.*,n.fecha_inicio,n.fecha_fin,n.tipo, e.nombre, e.apellidoP, e.apellidoM "
+                + "FROM nominaEmpleado ne "
+                + "INNER JOIN empleado e ON ne.codigoEmpleado=e.codigo "
+                + "INNER JOIN nomina n ON ne.idNomina = n.id WHERE n.id=? AND e.codigo=?";
+        PreparedStatement stmt;
+        
+        try {
+            stmt = conexion.getConnection().prepareStatement(query);
+            stmt.setInt(1, idNomina);
+            stmt.setInt(2, idEmpleado);
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()){
+                nominaEmpleado nominaEmp = new nominaEmpleado();
+                Nomina nomina = new Nomina();
+                Empleado empleado = new Empleado();
+                
+                //Obtener los datos de la nomina
+                nomina.setId(2);
+                nomina.setFechaInicio(rs.getDate(13));
+                nomina.setFechaFin(rs.getDate(14));
+                nomina.setTipo(15);
+                
+                //obtener los datos de empleado
+                empleado.setCodigo(3);
+                empleado.setSueldo(rs.getDouble(4));
+                empleado.setSdi(rs.getDouble(5));
+                empleado.setNombre(rs.getString(16));
+                empleado.setApellidoP(rs.getString(17));
+                empleado.setApellidoM(rs.getString(18));
+                
+                //obtener los datos de la nomina del empleado
+                nominaEmp.setId(rs.getInt(1));
+                nominaEmp.setEmpleado(empleado);
+                nominaEmp.setNomina(nomina);
+                nominaEmp.setDiasTrabajados(rs.getInt(6));  
+                nominaEmp.setSueldoTrabajo(rs.getDouble(7));
+                nominaEmp.setSpe_isr(rs.getDouble(8));
+                nominaEmp.setInfonavit(rs.getDouble(9));
+                nominaEmp.setCuotaImss(rs.getDouble(10));
+                nominaEmp.setCensantiaVejez(rs.getDouble(11));
+                nominaEmp.setSueldoNeto(rs.getDouble(12));
+
+                nominaList.add(nominaEmp);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Verifique sus derechos con el administrador", "¡¡¡ERROR!!!",JOptionPane.WARNING_MESSAGE);
+            Logger.getLogger(nominaEmpleadoDaoMysql.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return nominaList;
     }
     
 }

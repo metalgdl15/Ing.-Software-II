@@ -5,11 +5,15 @@
  */
 package GUI;
 
+import Entity.Nomina;
 import Entity.Usuario;
 import Entity.nominaEmpleado;
+import dao.nominaDao;
 import dao.nominaEmpleadoDao;
+import daoMysql.nominaDaoMysql;
 import daoMysql.nominaEmpleadoDaoMysql;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,6 +23,9 @@ import javax.swing.table.DefaultTableModel;
 public class menuInterfazEmp extends javax.swing.JFrame {
 
     private Usuario user;
+    
+    nominaEmpleadoDao dao = new nominaEmpleadoDaoMysql();
+    nominaDao daoN = new nominaDaoMysql();
     
     public Usuario getUsuario(){
         return user;
@@ -37,6 +44,19 @@ public class menuInterfazEmp extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.user = usuario;
         nombreUsuario();
+        
+        cargaBox();
+    }
+    
+    private void cargaBox(){
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        
+        List <Nomina> listaNomina = daoN.obtenTodos();
+        
+        for (int i = 0; i < listaNomina.size(); i++) {
+            modelo.addElement(listaNomina.get(i));
+        }
+        cbNominas.setModel(modelo);
     }
     
      //Vizualiza en nombre de usuario en el frame
@@ -56,7 +76,7 @@ public class menuInterfazEmp extends javax.swing.JFrame {
 
         btnTodo = new javax.swing.JToggleButton();
         btnFecha = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbNominas = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableNomina = new javax.swing.JTable();
         lblNombreUsuario = new javax.swing.JLabel();
@@ -73,6 +93,11 @@ public class menuInterfazEmp extends javax.swing.JFrame {
         });
 
         btnFecha.setText("Fecha");
+        btnFecha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFechaActionPerformed(evt);
+            }
+        });
 
         tableNomina.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -108,40 +133,39 @@ public class menuInterfazEmp extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(130, 130, 130)
-                                .addComponent(btnTodo)
-                                .addGap(105, 105, 105)
-                                .addComponent(btnFecha))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(156, 156, 156)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 168, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE))
-                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblNombreUsuario)
-                .addGap(37, 37, 37))
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lblNombreUsuario)
+                        .addGap(37, 37, 37))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
+                        .addGap(26, 26, 26))))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnTodo)
+                        .addGap(87, 87, 87)
+                        .addComponent(btnFecha))
+                    .addComponent(cbNominas, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(lblNombreUsuario)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addGap(20, 20, 20)
+                .addComponent(cbNominas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnTodo)
                     .addComponent(btnFecha))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
@@ -171,7 +195,7 @@ public class menuInterfazEmp extends javax.swing.JFrame {
         
     }
     private void btnTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTodoActionPerformed
-        nominaEmpleadoDao dao = new nominaEmpleadoDaoMysql();
+        
         
         List <nominaEmpleado> nominaList = dao.obtenNominaEmpleado(getUsuario().getCodigo());
         
@@ -184,12 +208,20 @@ public class menuInterfazEmp extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jMenu2MouseClicked
 
+    private void btnFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFechaActionPerformed
+       
+        Nomina nomina = (Nomina)cbNominas.getSelectedItem();
+        List <nominaEmpleado> listaNom = dao.obtenNominaEmpleadoFecha(nomina.getId(), getUsuario().getCodigo());
+        
+        agregaEnTabla(listaNom);
+    }//GEN-LAST:event_btnFechaActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFecha;
     private javax.swing.JToggleButton btnTodo;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cbNominas;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane2;

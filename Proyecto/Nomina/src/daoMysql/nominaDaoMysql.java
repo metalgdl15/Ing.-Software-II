@@ -51,6 +51,8 @@ public class nominaDaoMysql implements nominaDao{
             stmt.setInt(3, nomina.getTipo());
             
             stmt.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Se agrego la nómina");
             stmt.close();
             
         } catch (SQLException ex) {

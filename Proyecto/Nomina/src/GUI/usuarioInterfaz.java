@@ -173,7 +173,6 @@ public class usuarioInterfaz extends javax.swing.JFrame {
         agregaCuotaActualiza = new javax.swing.JRadioButton();
         lblCuota1 = new javax.swing.JLabel();
         btnAdmin = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         cerrarSesion = new javax.swing.JMenu();
         regresar = new javax.swing.JMenu();
@@ -491,20 +490,7 @@ public class usuarioInterfaz extends javax.swing.JFrame {
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Eliminar", jPanel2);
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 547, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 379, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Actualizar", jPanel3);
+        jTabbedPane1.addTab("Mostrar", jPanel2);
 
         cerrarSesion.setText("Cerrar Sesión ");
         cerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -803,7 +789,6 @@ public class usuarioInterfaz extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblCuota;

@@ -47,6 +47,8 @@ public class empleadoDaoMysql implements empleadoDao {
             stmt.setInt(6, 1);
             
             stmt.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Se ha registrado el nuevo empleado");
             stmt.close();
            
         } catch (SQLException ex) {

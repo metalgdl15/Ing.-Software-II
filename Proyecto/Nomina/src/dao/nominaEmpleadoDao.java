@@ -25,4 +25,5 @@ public interface nominaEmpleadoDao {
         public List <nominaEmpleado> registroNominaEmpleado(int tipo);
         public List <nominaEmpleado> obtenNominaEmpleado(int id);
         public List <nominaEmpleado> obtenNominaFecha(int idNomina);
+        public List <nominaEmpleado> obtenNominaEmpleadoFecha(int idNomina, int idEmpleado);
 }

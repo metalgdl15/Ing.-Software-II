@@ -78,7 +78,7 @@ public class menuInterfazCon extends javax.swing.JFrame {
         cuotaImage.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 2, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 0));
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Seleccione el área");
 
         jLabel2.setText("Patronal");
